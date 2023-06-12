@@ -1,0 +1,97 @@
+﻿@model ReviewViewModel
+
+<div class=" rates b-flex justify-content-center align-content-center">
+	
+	<form asp-controller="PersonalAccount" asp-action="RateMaster"  method="post" class="form-horizontal">
+		<div class="form-group myratings">
+            <label >Ваша оценка</label>
+			<div asp-for="Rating" style="padding-bottom:20px;" >
+				<div class="starability-checkmark" style="margin-bottom:20px;">
+                    <input onclick="changeColor()" type="radio" id="checkmark-rate1" name="rating" value="1" />
+					<label for="checkmark-rate1" title="Terrible" >1 star</label>
+
+					<input type="radio" id="checkmark-rate2" name="rating" value="2" />
+					<label for="checkmark-rate2" title="Not good">2 stars</label>
+
+					<input type="radio" id="checkmark-rate3" name="rating" value="3" />
+					<label for="checkmark-rate3" title="Average">3 stars</label>
+
+					<input type="radio" id="checkmark-rate4" name="rating" value="4" />
+					<label for="checkmark-rate4" title="Very good">4 stars</label>
+
+                    <input  type="radio" id="checkmark-rate5" name="rating" value="5" />
+					<label for="checkmark-rate5" title="Amazing">5 stars</label> 
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			@*<label asp-for=Text></label>*@
+			<textarea asp-for=Text class="form-control" rows="5" placeholder="Поделитесь своими впечатлениями"></textarea>
+			<span asp-validation-for="Text" class="text-danger"></span>
+		</div>
+		@*<div class="custom-control custom-checkbox mb-4">
+			<input type="checkbox" class="custom-control-input" checked>
+			<label class="small lite custom-control-label text-secondary">Нажимая на кнопку «Отправить», я соглашаюсь на обработку своих персональных данных</label>
+		</div>*@
+		<div class="form-group row">
+			<div class="col-sm-10">
+				<button type="submit" class="btn btn-primary btn-lg" >Отправить</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+@section scripts{
+    <script>
+
+            $("input[type='radio']").click(function(){
+                var sim =  $("input[type='radio']:checked").val();
+
+                //alert(sim);
+                //if (sim<3) {
+                //    $('.myratings').css('color','red'); 
+                //    $(".myratings").text(sim);
+                //}else{
+                //    $('.myratings').css('color','green');
+                //    $(".myratings").text(sim);
+                // }
+                
+                alert(sim);
+                $.ajax({
+                    url:'@Url.Action("RateMaster")',
+                    data:{"Rating":sim},
+                    success:function(response){
+                    
+                    },
+                    error:function(response){
+                        alert(response.responseText);
+                    }
+                });
+            });
+       // });
+        $("button.btn").click(function () {
+        
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Your work has been saved',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        });
+        function changeColor() {
+            var sim = $("input[type='radio']:checked").val();
+           
+  
+            if (sim < 3) {
+                $('.myratings').css('color','red');
+                $(".myratings").text(sim);
+            }else{
+                $('.myratings').css('color','green');
+                $(".myratings").text(sim);
+            }
+        };
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+    
+}

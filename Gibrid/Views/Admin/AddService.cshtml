@@ -1,0 +1,34 @@
+﻿@model ServiceViewModel
+
+<div class="row">
+	<h3>Добавление услуги</h3>
+	<form asp-controller="Admin" asp-action="AddService" asp-route-specialist="@Model" method="post" class="form-horizontal" enctype="multipart/form-data">
+		<div class="form-group">
+			<label asp-for=Name></label>
+			<div class="col-md-5">
+				<input asp-for=Name class="form-control" />
+				<span asp-validation-for="Name" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label asp-for=ShortDesc></label>
+			<div class="col-md-5">
+				<input asp-for=ShortDesc class="form-control" />
+				<span asp-validation-for="ShortDesc" class="text-danger"></span>
+			</div>
+		</div>
+
+		
+		<div class="input-group">
+			<div class="input-group-prepend">
+				<span class="input-group-text" id="inputGroupFileAddon01">Загрузка</span>
+			</div>
+			<div class="custom-file">
+				<input asp-for=Avatar type="file" class="custom-file-input" id="inputGroupFile01"
+					   aria-describedby="inputGroupFileAddon01" >
+				<label asp-for=Avatar class ="custom-file-label" for="inputGroupFile01">Выбрать файл</label>
+			</div>
+		</div>
+		<input class="btn btn-success" type="submit" value="Добавить" />
+	</form>
+</div>

@@ -1,0 +1,65 @@
+﻿@model SettingsViewModel
+
+<div class="tab-pane p-3" id="Settings" role="tabpanel" style="margin-top:80px;">
+    <div class="row b-flex justify-content-center align-content-center">
+        <div class="col-lg-6 col-xl-6" >
+            <div class="card">
+				<div class="card-header">
+					<div class="row align-items-center">
+						<div class="col">
+							<h4 class="card-title">Персональные данные</h4>
+						</div><!--end col-->
+					</div>  <!--end row-->
+				</div><!--end card-header-->
+				<div class="card-body">
+                    <form asp-action="Settings" asp-controller="PersonalAccount">
+						<div class="form-group mb-3 row">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group">
+                                <input type="hidden" asp-for="UserName" />
+                            </div>
+							<label class="col-xl-3 col-lg-3 text-end mb-lg-0 align-self-center form-label">Год рождения</label>
+							<div class="col-lg-9 col-xl-8">
+								<div class="input-group">
+									<span class="input-group-text"><i class="las la-phone"></i></span>
+									<input type="text" asp-for="Year" class="form-control" value="" placeholder="Year" aria-describedby="basic-addon1">
+								</div>
+							</div>
+						</div>
+						<div class="form-group mb-3 row">
+							<label class="col-xl-3 col-lg-3 text-end mb-lg-0 align-self-center form-label">Адрес электронной почты</label>
+							<div class="col-lg-9 col-xl-8">
+								<div class="input-group">
+									<span class="input-group-text"><i class="las la-at"></i></span>
+									<input type="text" asp-for="Email" class="form-control" value="" placeholder="Email" aria-describedby="basic-addon1">
+								</div>
+							</div>
+						</div>
+                        <div class="form-group mb-3 row">
+                            <label class="col-xl-3 col-lg-3 text-end mb-lg-0 align-self-center form-label">Текущий пароль</label>
+                            <div class="col-lg-9 col-xl-8">
+                                <input class="form-control" type="password" placeholder="Password" asp-for="OldPassword">
+                                <a href="#" class="text-primary font-12">Forgot password ?</a>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3 row">
+                            <label class="col-xl-3 col-lg-3 text-end mb-lg-0 align-self-center form-label">Новый пароль</label>
+                            <div class="col-lg-9 col-xl-8">
+                                <input class="form-control" type="password" placeholder="New Password" asp-for="NewPassword">
+                            </div>
+                        </div>
+						<div class="form-group mb-3 row">
+							<div class="col-lg-9 col-xl-8 offset-lg-3">
+								<button type="submit" class="btn btn-de-primary">Сохранить</button>
+								<a type="button" class="btn btn-de-danger" asp-area="" asp-controller="Home" asp-action="Index">Отмена</a>
+							</div>
+
+						</div>
+                    </form>
+				</div>
+            </div>
+        </div> <!--end col-->
+   
+       
+    </div><!--end row-->
+</div>             

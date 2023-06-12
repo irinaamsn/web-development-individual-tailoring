@@ -1,0 +1,23 @@
+﻿@model ReseptionViewModel
+<div class="container">
+   @* @if (SignInManager.IsSignedIn(User))*@
+    
+       @if (Model.Reseption.ReseptionItem !=null)
+        {
+            <div class="alert alert-warning mt-3">
+                <b>Специалист: </b> @Model.Reseption.ReseptionItem.SpecialistName<br/>
+                <b>Время:</b>@Model.Reseption.ReseptionItem.Time
+            </div>
+       
+        
+        <a class="btn btn-danger" asp-controller="SignUp" asp-action="CheckSignUp"> Записаться</a>
+        <a class="btn btn-danger" asp-controller="Reseption" asp-action="DeleteFromReseption" asp-route-id="@Model.Reseption.ReseptionItem.Id"> Удалить</a>
+        }
+   @* else{
+        <h3>Необходимо авторизоваться</h3>
+        <a class="nav-link text-dark" id="login" asp-area="" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">Login</a>
+    }*@
+</div>
+
+
+

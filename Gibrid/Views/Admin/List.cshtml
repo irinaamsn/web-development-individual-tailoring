@@ -1,0 +1,28 @@
+﻿@model AdminViewModel
+<h2>Специалисты</h2>
+<table class="table">
+    <tr><td>Имя специалиста</td><td>Время</td><td>Имя клиента</td><td>Телефон клиента</td><td>Время оформления записи клиентом</td></tr>
+    @{
+        foreach (var sp in Model.signUpDetails)
+            foreach (var sign in Model.signUp)
+            {
+                <tr>
+
+                    @if(sp.SignUpId==sign.Id)
+                    {
+                        <td>@sp.SpecialistName</td>
+                        <td>@sp.Time</td>
+                        <td>@sign.Name</td>
+                        <td>@sign.phone</td>
+                        <td>@sign.signTime</td>
+                        <td><a class="btn btn-primary" asp-controller="Admin" asp-action="Serviced" asp-route-signId="@sp.Id">Обслужено</a></td>
+                    }
+                </tr>
+            }
+    }
+           
+
+    
+</table>
+
+

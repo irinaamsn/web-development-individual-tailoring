@@ -1,0 +1,31 @@
+﻿@using Gibrid.Models.Enum
+@model TimeViewModel
+
+<div class="row" style="margin-top:80px;">
+	<h3>Добавление записи</h3>
+	<form asp-controller="Admin" asp-action="AddTime" asp-route-time="@Model" method="post" class="form-horizontal">
+
+        <div class="input-group" >
+            <input asp-for=Time type="text" class="form-control" id="datetimepicker6" />
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-remove"></span>
+            </span>
+        </div>
+		
+		<input class="btn btn-success" type="submit" value="Добавить" />
+	</form>
+</div>
+
+@section scripts{
+	 <script>
+
+
+        $(function () {
+            $('#datetimepicker6').datetimepicker();
+            $('.glyphicon-remove').click(function () {
+                $('#datetimepicker6').data("DateTimePicker").clear();
+            });
+        });
+      
+    </script>
+}

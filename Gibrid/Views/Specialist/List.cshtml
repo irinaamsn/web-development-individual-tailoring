@@ -1,0 +1,110 @@
+﻿@model ListSpecialistsViewModel
+
+<body >
+
+<div class="container d-flex justify-content-center list">
+    <div class="container">
+        <div class="row">
+            @foreach (Specialist sp in Model.Specialists)
+            {
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="single_advisor_profile wow fadeInUp" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
+                        <!-- Team Thumb-->
+                        <div class="advisor_thumb">
+                            <img src="data:image/jpeg;base64,@(Convert.ToBase64String(@sp.Avatar))" width="180" style="padding:10px;" alt="Avatar" />
+                            <!-- Social Info-->
+                                <div class="ratings social-info" id="rat" data-val="@sp.Rating">
+                                <i class="fa fa-star" id="@sp.Id+1" ></i>
+								<i class="fa fa-star" id="@sp.Id+2" ></i>
+                                <i class="fa fa-star" id="@sp.Id+3"></i>
+                                <i class="fa fa-star" id="@sp.Id+4"></i>
+                                <i class="fa fa-star" id="@sp.Id+5"></i>
+                                <script type="text/javascript">
+
+                                    var rat = @sp.Rating;
+
+                                    if (@sp.Rating == 1) document.getElementById("@sp.Id+1").style.color = "gold";
+                                    else if (@sp.Rating == 2) {
+                                        document.getElementById("@sp.Id+1").style.color = "gold";
+                                        document.getElementById("@sp.Id+2").style.color = "gold";
+                                    }
+                                    else if (@sp.Rating == 3) {
+                                        document.getElementById("@sp.Id+1").style.color = "gold";
+                                        document.getElementById("@sp.Id+2").style.color = "gold";
+                                        document.getElementById("@sp.Id+3").style.color = "gold";
+                                    }
+                                    else if (@sp.Rating == 4) {
+                                        document.getElementById("@sp.Id+1").style.color = "gold";
+                                        document.getElementById("@sp.Id+2").style.color = "gold";
+                                        document.getElementById("@sp.Id+3").style.color = "gold";
+                                        document.getElementById("@sp.Id+4").style.color = "gold";
+                                    }
+                                    else if (@sp.Rating == 5) {
+                                       
+                                        document.getElementById("@sp.Id+1").style.color = "gold";
+                                        document.getElementById("@sp.Id+2").style.color = "gold";
+                                        document.getElementById("@sp.Id+3").style.color = "gold";
+                                        document.getElementById("@sp.Id+4").style.color = "gold";
+                                        document.getElementById("@sp.Id+5").style.color = "gold";
+
+                                    }                                                                                                  
+                                </script>
+                            </div>
+                               
+                        </div>
+                           
+                        <!-- Team Details-->
+                        <div class="single_advisor_details_info">
+                            <h6>@sp.Name @sp.FullName</h6>
+                            <p class="designation">@sp.CategoryName</p>
+                             
+                                <input type="radio" id="@sp.Id" name="sp" value="@sp.Id" hidden/>
+                            <div class="buttons mt-6 d-flex justify-content-between">
+                                
+                                @if (User.IsInRole("admin") && SignInManager.IsSignedIn(User))
+                                {
+                                    <a class="btn btn-primary btn-block" asp-controller="Admin" asp-action="AddTime" asp-route-id="@sp.Id"> Выбрать</a>
+                                }
+                                @if(Model.IsCreate==1){
+                                    <a class="btn btn-secondary btn-sm px-2 open-btn" asp-controller="Specialist" asp-action="ProfileDetail" asp-route-idSp="@sp.Id" style="border-radius: 15px !important;">Открыть</a>
+                                     <a class="btn btn-warning btn-block " id="createbtn" onclick="create()" href="#" style="border-radius: 15px !important;"> Записаться</a>
+                                }
+                                else {
+                                    <a class="btn btn-secondary btn-sm px-2 open-btn" asp-controller="Specialist" asp-action="ProfileDetail" asp-route-idSp="@sp.Id" style="border-radius: 15px !important;">Открыть</a>
+                                    @if (sp.isHasTime)
+                                    {
+
+                                    <a class="btn btn-warning btn-block " id="createbtn" asp-controller="PersonalAccount" asp-action="CreateSignUp" asp-route-idSp="@sp.Id" style="border-radius: 15px !important;"> Записаться</a>
+                                    }
+                                    else 
+                                    {
+                                    <button class="btn btn-warning btn-block " id="createbtn" disabled  asp-controller="PersonalAccount" asp-action="CreateSignUp" asp-route-idSp="@sp.Id" style="border-radius: 15px !important;"> Записаться</button>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <script type="text/javascript">
+                        //$("#createbtn").click(function () {
+                          function create(){
+                         
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Вы уже записаны!',
+                            footer: '<a style="text-decoration:underline" href="@Url.Action("Signs","PersonalAccount", new{name= User.Identity.Name})">Чтобы записаться, отмените текущую запись <i class="fa fa-external-link" aria-hidden="true"></i></a>'
+
+                            })
+                        };
+                    </script>
+            }
+            
+        </div>
+    </div>
+        @section scripts{
+            
+        }
+</div>
+</body>
+

@@ -1,0 +1,398 @@
+﻿@model List<SignViewModel>
+
+@*<table class="table">
+    <tr><td>Имя клиента</td><td>Телефон клиента</td><td>Время записи</td></tr>
+    @if (Model.Count>0)
+    {
+        foreach (var sign in Model)
+           // foreach (var sign in Model.signUp)
+            {
+                <tr>
+                    <td>@sign.NameUser</td>
+                    <td>@sign.PhoneUser</td>
+                    <td>@sign.Time</td>
+                    <td><a class="btn btn-primary" asp-controller="Master" asp-action="Serviced" asp-route-signId="@sign.SignId">Обслужено</a></td>
+                </tr>
+            }
+    }
+
+</table>*@
+<head>
+    <link href="~/lib/bootstrap/dist/css/calendar.css" rel="stylesheet" asp-append-version="true" />
+    <link rel="stylesheet" href="https://unpkg.com/flexboxgrid2@7.2.1/flexboxgrid2.css">
+</head>
+<body>
+	 <div class="container">
+    <div class="w-95 w-md-75 w-lg-60 w-xl-55 mx-auto mb-6 text-center">
+        
+        <h2 class="display-18 display-md-16 display-lg-14 mb-0">Ваши записи<span class="text-primary"> на текущую неделю</span></h2>
+    </div>
+   <div class="row">
+        <div class="col-md-12">
+            <div class="schedule-table">
+                    @{
+                        DateTime date = DateTime.Today;
+                        date = date.Date;
+                        int dayOfWeek = (int)date.DayOfWeek - 1;
+                        if (dayOfWeek < 0)
+                            dayOfWeek = 6;
+                        DateTime begin = date.AddDays(-dayOfWeek);
+                        DateTime end = begin.AddDays(6);
+
+                        var list = new List<(DayOfWeek, TimeSpan, int)>();
+                        if (Model.Count > 0)
+                        {
+                            foreach(var t in Model.Where(x=>x.Time>=begin && x.Time<=end))
+                            {
+                                list.Add((t.Time.DayOfWeek, t.Time.TimeOfDay, t.SignId));
+                            }
+                        }
+                        
+                      }
+                <table class="table bg-white">
+
+                    @if (list.Count > 0)
+                    {
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th class="day">Пн</th>
+                                <th class="day">Вт</th>
+                                <th class="day">Ср</th>
+                                <th class="day">Чт</th>
+                                <th class="day">Пт</th>
+                                <th class="day">Сб</th>
+                                <th class="day">Вс</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="time">8:00</td>
+                                    @{
+                                        foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
+                                        {
+                                            int tempDay = (int)day;
+                                            @if ((int)tempDay == 6) tempDay = -1;
+                                            var sign = list.Where(x => (int)x.Item1 == tempDay + 1 && x.Item2.Hours == 8).FirstOrDefault();
+                                            @if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && Model.SingleOrDefault(x=>x.SignId==sign.Item3).IsServiced)
+                                            {                       
+                                                var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);                       
+                                                <td class="serviced" id="@sign.Item3">
+                                                    <h4>@detail.NameUser</h4>
+                                                    <p>@detail.PhoneUser</p>
+                                                    <div class="hover">
+                                                        <h4>@sign.Item1</h4>
+                                                        <p>@sign.Item2</p>
+                                                        <a class="btn btn-primary" onclick="buttoncl(@sign.Item3)" @*asp-controller="Master" asp-action="Serviced" asp-route-signId="@sign.Item3"*@>Обслужено</a>                                               
+                                                    </div>
+                                                </td>
+                                            }
+                                            else if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && !Model.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced){
+                                                 var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);                       
+                                                <td class="active" id="@sign.Item3">
+                                                    <h4>@detail.NameUser</h4>
+                                                    <p>@detail.PhoneUser</p>
+                                                    <div class="hover">
+                                                        <h4>@sign.Item1</h4>
+                                                        <p>@sign.Item2</p>
+                                                        <a class="btn btn-primary" onclick="buttoncl(@sign.Item3)" @*asp-controller="Master" asp-action="Serviced" asp-route-signId="@sign.Item3"*@>Обслужено</a>                                               
+                                                    </div>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td></td>
+                                            }
+                                        }  
+                                     }
+                            </tr>   
+                            <tr>
+                                <td class="time">10:00</td>
+                                    @{
+                                        foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
+                                        {
+                                            int tempDay = (int)day;
+                                            @if ((int)tempDay == 6) tempDay = -1;
+                                            var sign = list.Where(x => (int)x.Item1 == tempDay + 1 && x.Item2.Hours == 10).FirstOrDefault();
+                                            @if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && Model.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
+                                            {
+                                                var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);
+                                                <td class="serviced" id="@sign.Item3">
+                                                    <h4>@detail.NameUser</h4>
+                                                    <p>@detail.PhoneUser</p>
+                                                    <div class="hover">
+                                                        <h4>@sign.Item1</h4>
+                                                        <p>@sign.Item2</p>
+                                                        <a class="btn btn-primary" onclick="buttoncl(@sign.Item3)" @*asp-controller="Master" asp-action="Serviced" asp-route-signId="@sign.Item3"*@>Обслужено</a>
+                                                    </div>
+                                                </td>
+                                            }
+                                            else if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && !Model.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
+                                            {
+                                                var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);
+                                                <td class="active" id="@sign.Item3">
+                                                    <h4>@detail.NameUser</h4>
+                                                    <p>@detail.PhoneUser</p>
+                                                    <div class="hover">
+                                                        <h4>@sign.Item1</h4>
+                                                        <p>@sign.Item2</p>
+                                                        <a class="btn btn-primary" onclick="buttoncl(@sign.Item3)" @*asp-controller="Master" asp-action="Serviced" asp-route-signId="@sign.Item3"*@>Обслужено</a>
+                                                    </div>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td></td>
+                                            }
+                                        }
+                                    }
+                            </tr>
+                            <tr>
+                                <td class="time">12:00</td>
+                                @{
+                                    foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
+                                    {
+                                        int tempDay = (int)day;
+                                        @if ((int)tempDay == 6) tempDay = -1;
+                                        var sign = list.Where(x => (int)x.Item1 == tempDay + 1 && x.Item2.Hours == 12).FirstOrDefault();
+                                            @if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && Model.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
+                                            {
+                                                var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);
+                                                <td class="serviced" id="@sign.Item3">
+                                                    <h4>@detail.NameUser</h4>
+                                                    <p>@detail.PhoneUser</p>
+                                                    <div class="hover">
+                                                        <h4>@sign.Item1</h4>
+                                                        <p>@sign.Item2</p>
+                                                        <a class="btn btn-primary" onclick="buttoncl(@sign.Item3)" @*asp-controller="Master" asp-action="Serviced" asp-route-signId="@sign.Item3"*@>Обслужено</a>
+                                                    </div>
+                                                </td>
+                                            }
+                                            else if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && !Model.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
+                                            {
+                                                var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);
+                                                <td class="active" id="@sign.Item3">
+                                                    <h4>@detail.NameUser</h4>
+                                                    <p>@detail.PhoneUser</p>
+                                                    <div class="hover">
+                                                        <h4>@sign.Item1</h4>
+                                                        <p>@sign.Item2</p>
+                                                        <a class="btn btn-primary" onclick="buttoncl(@sign.Item3)" @*asp-controller="Master" asp-action="Serviced" asp-route-signId="@sign.Item3"*@>Обслужено</a>
+                                                    </div>
+                                                </td>
+                                            }
+                                        else
+                                        {
+                                            <td></td>
+                                        }
+                                    }
+                                }
+                            </tr>
+                            <tr>
+                                <td class="time">14:00</td>
+                                    @{
+                                        foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
+                                        {
+                                            int tempDay = (int)day;
+                                                            @if ((int)tempDay == 6) tempDay = -1;
+                                            var sign = list.Where(x => (int)x.Item1 == tempDay + 1 && x.Item2.Hours == 14).FirstOrDefault();
+                                            @if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && Model.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
+                                            {
+                                                var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);
+                                                <td class="serviced" id="@sign.Item3">
+                                                    <h4>@detail.NameUser</h4>
+                                                    <p>@detail.PhoneUser</p>
+                                                    <div class="hover">
+                                                        <h4>@sign.Item1</h4>
+                                                        <p>@sign.Item2</p>
+                                                        <a class="btn btn-primary" onclick="buttoncl(@sign.Item3)" @*asp-controller="Master" asp-action="Serviced" asp-route-signId="@sign.Item3"*@>Обслужено</a>
+                                                    </div>
+                                                </td>
+                                            }
+                                            else if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && !Model.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
+                                            {
+                                                var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);
+                                                <td class="active" id="@sign.Item3">
+                                                    <h4>@detail.NameUser</h4>
+                                                    <p>@detail.PhoneUser</p>
+                                                    <div class="hover">
+                                                        <h4>@sign.Item1</h4>
+                                                        <p>@sign.Item2</p>
+                                                        <a class="btn btn-primary" onclick="buttoncl(@sign.Item3)" @*asp-controller="Master" asp-action="Serviced" asp-route-signId="@sign.Item3"*@>Обслужено</a>
+                                                    </div>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                                <td></td>
+                                            }
+                                        }
+                                    }
+                            </tr>
+                            <tr>
+                                <td class="time">16:00</td>
+                                    @{
+                                        foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
+                                        {
+                                            int tempDay = (int)day;
+                                                            @if ((int)tempDay == 6) tempDay = -1;
+                                            var sign = list.Where(x => (int)x.Item1 == tempDay + 1 && x.Item2.Hours == 16).FirstOrDefault();
+                                            @if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && Model.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
+                                            {
+                                                var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);
+                                                <td class="serviced" id="@sign.Item3">
+                                                    <h4>@detail.NameUser</h4>
+                                                    <p>@detail.PhoneUser</p>
+                                                    <div class="hover">
+                                                        <h4>@sign.Item1</h4>
+                                                        <p>@sign.Item2</p>
+                                                        <a class="btn btn-primary" onclick="buttoncl(@sign.Item3)" @*asp-controller="Master" asp-action="Serviced" asp-route-signId="@sign.Item3"*@>Обслужено</a>
+                                                    </div>
+                                                </td>
+                                            }
+                                            else if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && !Model.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
+                                            {
+                                                var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);
+                                                <td class="active" id="@sign.Item3">
+                                                    <h4>@detail.NameUser</h4>
+                                                    <p>@detail.PhoneUser</p>
+                                                    <div class="hover">
+                                                        <h4>@sign.Item1</h4>
+                                                        <p>@sign.Item2</p>
+                                                        <a class="btn btn-primary" onclick="buttoncl(@sign.Item3)" @*asp-controller="Master" asp-action="Serviced" asp-route-signId="@sign.Item3"*@>Обслужено</a>
+                                                    </div>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                              <td></td>
+                                            }
+                                        }
+                                    }
+                            <tr>
+                               <td class="time">18:00</td>
+                                @{
+                                    foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
+                                    {
+                                        int tempDay = (int)day;
+                                                        @if ((int)tempDay == 6) tempDay = -1;
+                                        var sign = list.Where(x => (int)x.Item1 == tempDay + 1 && x.Item2.Hours == 18).FirstOrDefault();
+                                        @if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && Model.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
+                                        {
+                                            var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);
+                                        <td class="serviced" id="@sign.Item3">
+                                            <h4>@detail.NameUser</h4>
+                                            <p>@detail.PhoneUser</p>
+                                            <div class="hover">
+                                                <h4>@sign.Item1</h4>
+                                                <p>@sign.Item2</p>
+                                                <a class="btn btn-primary" onclick="buttoncl(@sign.Item3)" @*asp-controller="Master" asp-action="Serviced" asp-route-signId="@sign.Item3"*@>Обслужено</a>
+                                            </div>
+                                        </td>
+                                        }
+                                        else if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && !Model.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
+                                        {
+                                            var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);
+                                        <td class="active" id="@sign.Item3">
+                                            <h4>@detail.NameUser</h4>
+                                            <p>@detail.PhoneUser</p>
+                                            <div class="hover">
+                                                <h4>@sign.Item1</h4>
+                                                <p>@sign.Item2</p>
+                                                <a class="btn btn-primary" onclick="buttoncl(@sign.Item3)" @*asp-controller="Master" asp-action="Serviced" asp-route-signId="@sign.Item3"*@>Обслужено</a>
+                                            </div>
+                                        </td>
+                                        }
+                                        else
+                                        {
+                                            <td></td>
+                                        }
+                                    }
+                                }
+                            
+                            </tr>
+                            <tr>
+                               <td class="time">20:00</td>
+                                @{
+                                    foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
+                                    {
+                                        int tempDay = (int)day;
+                                                        @if ((int)tempDay == 6) tempDay = -1;
+                                        var sign = list.Where(x => (int)x.Item1 == tempDay + 1 && x.Item2.Hours == 20).FirstOrDefault();
+                                                @if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && Model.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
+                                                {
+                                                    var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);
+                                                <td class="serviced" id="@sign.Item3">
+                                                    <h4>@detail.NameUser</h4>
+                                                    <p>@detail.PhoneUser</p>
+                                                    <div class="hover">
+                                                        <h4>@sign.Item1</h4>
+                                                        <p>@sign.Item2</p>
+                                                        <a class="btn btn-primary" onclick="buttoncl(@sign.Item3)" @*asp-controller="Master" asp-action="Serviced" asp-route-signId="@sign.Item3"*@>Обслужено</a>
+                                                    </div>
+                                                </td>
+                                                }
+                                                else if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && !Model.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
+                                                {
+                                                    var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);
+                                                <td class="active" id="@sign.Item3">
+                                                    <h4>@detail.NameUser</h4>
+                                                    <p>@detail.PhoneUser</p>
+                                                    <div class="hover">
+                                                        <h4>@sign.Item1</h4>
+                                                        <p>@sign.Item2</p>
+                                                        <a class="btn btn-primary" onclick="buttoncl(@sign.Item3)" @*asp-controller="Master" asp-action="Serviced" asp-route-signId="@sign.Item3"*@>Обслужено</a>
+                                                    </div>
+                                                </td>
+                                                }
+                                        else
+                                        {
+                                            <td></td>
+                                        }
+                                    }
+                                }
+
+                            </tr>
+                         
+                        </tbody>
+                        
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+
+	</div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/calendar.js?v=3.1.0"></script>
+    <script>      
+        function buttoncl(id) {           
+            $.ajax({
+                url: '@Url.Action("Serviced","Master")',
+                data: { "signId": id },
+                success: function (response) {
+                    arrId.push(id);
+                    document.getElementById(id).setAttribute("class", "myClass");
+                     $('.myClass').css('color', '#808080').css('background-color', '#A9A9A9');
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });           
+        };
+    </script>
+ @*   <script>
+        $(() => {
+            let calendar = new Calendar();
+
+            // Получам календарь на текущий месяц текущего года
+            let $month = calendar.getMonthHTML();
+
+            // Выводим календарь
+            $('body').append($month);
+        });
+    </script>*@
+</body>
+
+
+               

@@ -1,0 +1,20 @@
+﻿@model IEnumerable<DataStorageItem>
+<h2>Архив записей</h2>
+<div class="row mt-5 mb-2">
+    @{
+        foreach (var data in Model)
+        {
+            if(!data.isDelete)
+           { <div class="col-md-4">
+                <h2> @data.CategoryName </h2>
+                <h2> @data.SpecialistName </h2>
+                <h2> @data.Time</h2>
+                <p> <a class="btn btn-warning" asp-controller="DataStorage" asp-action="DeleteData" asp-route-id="@data.Id">Удалить</a></p>
+            </div>
+           }
+        }
+        <p> <a class="btn btn-primary" asp-controller="PersonalAccount" asp-action="Index">Вернуться</a></p>
+    }
+</div>
+
+

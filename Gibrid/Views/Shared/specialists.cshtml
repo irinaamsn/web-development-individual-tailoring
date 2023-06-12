@@ -1,0 +1,80 @@
+﻿@model Specialist
+
+
+<div class="col-12 col-sm-6 col-lg-3">
+    <div class="single_advisor_profile wow fadeInUp" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
+        <!-- Team Thumb-->
+        <div class="advisor_thumb">
+            <img src="data:image/jpeg;base64,@(Convert.ToBase64String(@Model.Avatar))" alt="Avatar" />
+            <!-- Social Info-->
+                <div type="context" class="ratings social-info" id="rat" data-val="@Model.Rating">
+                <i class="fa fa-star" id="star1"></i>
+                <i class="fa fa-star" id="star2"></i>
+                <i class="fa fa-star" id="star3"></i>
+                <i class="fa fa-star" id="star4"></i>
+                <i class="fa fa-star" id="star5"></i>
+            </div>
+                
+        </div>
+
+        @section scripts{
+            <script>
+                const star1 = document.getElementById("star1");
+                const star2 = document.getElementById("star2");
+                const star3 = document.getElementById("star3");
+                const star4 = document.getElementById("star4");
+                const star5 = document.getElementById("star5");
+                document.getElementById("rat").onload = function () { stars() };
+                function stars() {
+
+                    alert('10');
+                    const sim = parseInt(document.querySelector('.ratings').getAttribute('data-val'));
+
+                    alert(sim);
+                    if (sim == 1) $('#star1').css('color', '#388E3C');
+                    else if (sim == 2) {
+                        $('#star1').css('color', 'gold');
+                        $('#star2').css('color', 'gold');
+                    }
+                    else if (sim == 3) {
+                        $('#star1').css('color', 'gold');
+                        $('#star2').css('color', 'gold');
+                        $('#star3').css('color', 'gold');
+                    }
+                    else if (sim == 4) {
+                        $('#star1').css('color', 'gold');
+                        $('#star2').css('color', 'gold');
+                        $('#star3').css('color', 'gold');
+                        $('#star4').css('color', 'gold');
+                    }
+                    else if (sim == 5) {
+                        $('#star1').css('color', 'gold');
+                        $('#star2').css('color', 'gold');
+                        $('#star3').css('color', 'gold');
+                        $('#star4').css('color', 'gold');
+                        $('#star5').css('color', 'gold');
+                    }
+                    //}
+                };
+            </script>
+        }
+
+        <!-- Team Details-->
+        <div class="single_advisor_details_info">
+            <h6>@Model.Name @Model.FullName</h6>
+            <p class="designation">@Model.CategoryName - @Model.Experience</p>
+            <div class="buttons mt-6 d-flex justify-content-between">
+                @if (User.IsInRole("admin") && SignInManager.IsSignedIn(User))
+                {
+                    <a class="btn btn-primary btn-block" asp-controller="Admin" asp-action="AddTime" asp-route-id="@Model.Id"> Выбрать</a>
+                }
+                else
+                {
+                    <a class="btn btn-secondary btn-sm px-2 open-btn" asp-controller="Specialist" asp-action="ProfileDetail" asp-route-idSp="@Model.Id" style="border-radius: 15px !important;">Открыть</a>
+                    @* <a class="btn btn-primary btn-block" asp-controller="Time" asp-action="List" asp-route-id="@sp.Id" style="border-radius: 15px !important;"> Записаться</a>*@
+                    <a class="btn btn-warning btn-block" asp-controller="PersonalAccount" asp-action="CreateSignUp" asp-route-idSp="@Model.Id" style="border-radius: 15px !important;"> Записаться</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>

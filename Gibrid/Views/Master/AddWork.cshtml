@@ -1,0 +1,85 @@
+﻿@model WorkViewModel
+
+
+<div class="row">
+	<h3>Добавление услуги</h3>
+    <form asp-controller="Master" asp-action="AddWork" asp-route-work="@Model" method="post" class="form-horizontal" enctype="multipart/form-data">
+		<div class="input-group">
+			<div class="input-group-prepend">
+				<span class="input-group-text" id="inputGroupFileAddon01">Загрузка</span>
+			</div>
+			<div class="custom-file">
+				<input asp-for=Avatar type="file" class="form-control" id="inputFile" >
+			</div>
+            <div>
+                <input asp-for=isFav type="checkbox" id="fav" name="isFav" value="false">
+                <label asp-for=isFav for="fav">Сделать лучшей работой</label>
+            </div>
+		</div>
+		<input class="btn btn-primary" type="submit" id="addWorkId" onclick="openModel()" data-toggle="ajax-modal" data-target="Modal" value="Добавить" />
+	</form>
+</div>
+
+<div class="modal fade" tabindex="-1"  id="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header border-bottom-0">
+                <h1 class="modal-title fs-5">Работа успешно добавлена!</h1>
+                
+            </div>
+           @* <div class="modal-body py-0">
+                <p>This is a modal sheet, a variation of the modal that docs itself to the bottom of the viewport like the newer share sheets in iOS.</p>
+            </div>*@
+            <div class="modal-footer flex-column border-top-0">
+               @* <button type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2">Save changes</button>*@
+                <button type="button" class="btn btn-close btn-lg btn-light w-100 mx-0" data-bs-dismiss="modal" "></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        var modal=$('#modal');
+
+        $(".btn-close").click(function (evt) {
+            evt.preventDefault();
+            modal.modal('hide');
+            document.location.href = '@Url.Action("AnotherAction","AnotherController")';
+        });
+
+        $("input[type=checkbox]").change(function () {
+            if ($(this).prop("checked")) {
+                $(this).val(true);
+            } else {
+                $(this).val(false);
+            }
+        });
+
+        function save() {
+            var img = $('input#inputFile').val();
+            var fav=false;
+            if (document.getElementById('fav').checked) {
+                fav=true;
+            }
+            $.ajax({
+                method: 'Post',
+                url: '@Url.Action("AddWork", "Master")',
+                data: { "avatar": img, "isFav": fav },
+                success: function (response) {
+                    alert('Succsess');
+                   // document.location.href = '#step-4';
+                    //modal.modal('hide');
+
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        };
+        function openModel(){
+            modal.modal('show');
+        }
+    </script>
+
+}

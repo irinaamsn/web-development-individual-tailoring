@@ -1,0 +1,119 @@
+﻿
+   @* <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark p-0 shadow">
+            <div class="container-fluid">
+                <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Glam Tailor</a>
+                <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Переключение навигации">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <input class="form-control form-control-dark w-100" type="text" placeholder="Поиск" aria-label="Поиск">
+                <div class="navbar-nav">
+                    <div class="nav-item text-nowrap">
+                        <form id="logoutForm" class="form-inline" asp-area="" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                            <button id="logout" type="submit" class="nav-link btn btn-link">Выйти</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>*@
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">
+                                <span data-feather="home"></span>
+                                Панель
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="" asp-action="List">Записи</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Master" asp-action="ListWorks" asp-route-user="@User.Identity.Name">Мои работы</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Master" asp-action="MyRates" asp-route-name="@User.Identity.Name">Посмотреть отзывы</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="bar-chart-2"></span>
+                                Отчеты
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="layers"></span>
+                                Интеграции
+                            </a>
+                        </li>
+                    </ul>
+
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        <span>Сохраненные отчеты</span>
+                        <a class="link-secondary" href="#" aria-label="Add a new report">
+                            <span data-feather="plus-circle"></span>
+                        </a>
+                    </h6>
+                    <ul class="nav flex-column mb-2">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="file-text"></span>
+                                Текущий месяц
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="file-text"></span>
+                                Последний квартал
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="file-text"></span>
+                                Социальная активность
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="file-text"></span>
+                                Распродажа на конец года
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" asp-controller="Master" asp-action="ListWorks" ">
+                    <h1 class="h2">Панель</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                       
+                       @* <div class="btn-group me-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Поделиться</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Экспорт</button>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                            <span data-feather="calendar"></span>
+                            Эта неделя
+                        </button>*@
+
+                    </div>
+                </div>
+
+
+                         
+            </main>
+        </div>
+    </div>
+
+
+    <script src="/docs/5.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="dashboard.js" crossorigin="anonymous"></script>
+

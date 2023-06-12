@@ -1,0 +1,26 @@
+﻿@model Time
+@*<div class="form-check">
+    <input class="form-check-input" type="radio" id="checkmark-rate1" name="rating" value="@Model.TimeSpecialist" />
+    <label class="form-check-label" for="checkmark-rate1">@Model.TimeSpecialist</label>
+</div>*@
+<div class="card" style="width: 18rem;" asp-for=sighTime>
+    <div class="card-body">
+        <h5 class="card-title"><i class="fa fa-calendar" aria-hidden="true"></i></h5>
+        <a class="btn card-text" onclick="setTime(@Model.Id)">@Model.TimeSpecialist.</a>
+       @* <a href="#" class="btn btn-primary">Go somewhere</a>*@
+    </div>
+ </div>
+@*<a class="btn btn-primary chooseTime" onclick="setTime(@Model.Id)"><h2><i class="fa fa-calendar" aria-hidden="true"></i> @Model.TimeSpecialist </h2></a>*@
+@section scripts{
+    <script>
+        //int time=0;
+       function setTime(int id)
+       {
+            //$(".chooseTime").click(function () {
+                // time=id;
+                
+            //};
+            alert(id);
+        });
+    </script>
+}

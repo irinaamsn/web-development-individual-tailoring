@@ -1,0 +1,24 @@
+﻿
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+<div class="container">
+	@ViewBag.Message
+    <ul class="navbar-nav flex-grow-1">
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Персональные данные</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">История записей</a>
+        </li>
+        <li class="nav-item">
+            <form id="logoutForm" class="form-inline" asp-area="" asp-controller="" asp-action="" asp-route-returnUrl="">
+                <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Текущая запись</button>
+            </form>
+        </li>
+        <li class="nav-item">
+            <form id="logoutForm" class="form-inline" asp-area="" asp-controller="" asp-action="" asp-route-returnUrl="">
+                <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Записаться</button>
+            </form>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,296 @@
+﻿@model CreateSignUpViewModel
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/smartwizard@6/dist/css/smart_wizard_all.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://unpkg.com/smartwizard@6/dist/css/smart_wizard_all.min.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+    <div class="container b-flex justify-content-center align-content-center" style="padding:100px;">
+       
+    <div class="modal-content" style="margin:100px;">
+            
+        <div class="modal-body">
+             <div class="d-flex justify-content-center align-content-center" style="padding:50px;"><h1>Запись на консультацию</h1></div>
+            <div id="smartwizard" class="sw sw-justified sw-theme-square">
+                       @* <ul>
+                            <li><a href="#step-1" style="width:50px; height:40px;"></a></li>
+                            <li><a href="#step-2" style="width:50px; height:40px;"></a></li>
+                            <li><a href="#step-3" style="width:50px; height:40px;"></a></li>
+                            <li><a href="#step-4" style="width:50px; height:40px;"></a></li>
+                        </ul>*@
+                    <ul class="nav nav-progress">
+                        <li class="nav-item">
+                            <a class="nav-link default active" href="#step-1">
+                                <div class="num">1</div><ya-tr-span data-index="366-0" data-translated="true" data-source-lang="en" data-target-lang="ru" data-value=" Customer Details " data-translation=" Выбор времени " data-ch="0" data-type="trSpan"> Свободное время </ya-tr-span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link default" href="#step-2">
+                                <span class="num"><ya-tr-span data-index="367-0" data-translated="true" data-source-lang="en" data-target-lang="ru" data-value="2" data-translation="2" data-ch="0" data-type="trSpan">2</ya-tr-span></span><ya-tr-span data-index="367-1" data-translated="true" data-source-lang="en" data-target-lang="ru" data-value="Products Details " data-translation="Ввод дополнительных данных " data-ch="0" data-type="trSpan"> Дополнительная информация о клиенте </ya-tr-span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link default" href="#step-3">
+                                <span class="num"><ya-tr-span data-index="368-0" data-translated="true" data-source-lang="en" data-target-lang="ru" data-value="3" data-translation="3" data-ch="0" data-type="trSpan">3</ya-tr-span></span><ya-tr-span data-index="368-1" data-translated="true" data-source-lang="en" data-target-lang="ru" data-value="Shipping Details " data-translation="Детали записи " data-ch="0" data-type="trSpan"> Детали записи </ya-tr-span>
+                            </a>
+                        </li>
+                          
+                    </ul>
+                    <div class="tab-content mt-4">
+                        <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
+                               <div class="row">
+                               
+                            @{
+                                foreach (Time t in Model.allTimeSpecialist)
+                                {
+                                if (!t.isDelete)
+                                {
+                                        <div class="card times" style=" width: 20%; margin:20px; background-color:#f8f9f9; border-color:#cecc;" asp-for=sighTime>
+                                            <div class="card-body">
+
+                                                <a class="btn card-text" href="#" onclick="setTime(@t.Id, @t.SpecialistDetailsId)"><i class="fa fa-calendar" aria-hidden="true"></i> @t.TimeSpecialist</a>
+                                                @* <a href="#" class="btn btn-primary">asp-action="AddToReseption" asp-controller="Reseption" asp-route-timeId="@t.Id" asp-route-id="@t.SpecialistDetailsId" asp-route-user="@User.Identity.Name"</a>*@
+
+                                            </div>
+                                        </div>
+                                }
+                                    //@Html.Partial("ChooseTime",t)
+                                // <button class="btn chooseTime" onclick="setTime(@t.TimeSpecialist)"><h2><i class="fa fa-calendar" aria-hidden="true"></i> @t.TimeSpecialist </h2></button>
+                                }
+                            }
+                               </div>
+                        </div>
+                        <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
+                                <div class="row">
+                                @if (Model.ReseptionItems != null)
+                                {
+                                    <form  method="post" class="form-horizontal">
+                                        <div class="form-group">
+                                            <label asp-for=@Model.SignUp.Name></label>
+                                            <div class="col-md-5">
+                                                <input asp-for=@Model.SignUp.Name class="form-control" id="name"/>
+                                                <span asp-validation-for="@Model.SignUp.Name" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for=@Model.SignUp.phone></label>
+                                            <div class="col-md-5">
+                                                <input asp-for=@Model.SignUp.phone class="form-control" id="phone" />
+                                                <span asp-validation-for="@Model.SignUp.phone" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <a class="btn btn-success"  onclick="save(@Model.ReseptionItems.TimeId)" type="submit" >Записаться</a>
+                                    </form>
+                                    <span class="price"  hidden>@Model.ReseptionItems.Time</span>
+                                }
+                            </div>
+                            </div>
+                       <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
+                         
+                            <div class="row">
+                                <div class="container b-flex flex-column justify-content-center align-items-center">
+                                    <div class=" image3 d-flex flex-column justify-content-center align-items-center">
+                                       
+                                            <img class="rounded-circle" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Specialist.Avatar))" alt="Avatar"  width="200" />
+                                       
+                                        <span class="name mt-3" style="background-color:##F0F8FF; height:30px;">@Model.Specialist.Name @Model.Specialist.FullName</span>
+                                        <span class="idd">@Model.Specialist.CategoryName</span>
+                                        <div class="d-flex flex-row justify-content-center align-items-center gap-2">
+                                            @if (Model.ReseptionItems != null)
+                                            {
+                                                <span class="idd1"><bold><i class="fa fa-calendar" aria-hidden="true"></i>:</bold> @Model.ReseptionItems.Time</span>
+
+                                            }
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="d-flex flex-row justify-content-end ">
+
+                                        <a class="btn btn-dark" asp-area="" asp-action="Signs" asp-controller="PersonalAccount" asp-route-name="@User.Identity.Name" style="color:#fff;">В личный кабинет <i class="fa fa-share" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                               @* <div class="left">
+                                    <img class="thumb" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Specialist.Avatar))" alt="Avatar" />
+                                    <div class="purchase">
+                                        <h6> <a href="#">@Model.Specialist.Name @Model.Specialist.FullName</a> </h6> <span>@Model.Specialist.CategoryName</span>
+                                    </div>
+
+                                </div>
+                               *@
+                                  
+                                  
+                               
+                                
+                            </div>
+                        </div>
+                       
+                            
+                        
+                       @* <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
+                                <div class="row ">
+                                        @*<div class=" image d-flex flex-column justify-content-center align-items-center">
+                                            <a class="btn btn-secondary">
+                                                <img src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Specialist.Avatar))" alt="Avatar" height="100" width="100" />
+                                            </a> <span class="name mt-3">@Model.Specialist.Name @Model.Specialist.FullName</span>
+                                            <span class="idd">@Model.Specialist.CategoryName</span>
+                                            <div class="d-flex flex-row justify-content-center align-items-center gap-2">
+                                                @if (Model.ReseptionItems != null)
+                                                {
+                                                    <span class="idd1">@Model.ReseptionItems.Time</span>
+
+                                                }
+                                            </div>
+                                        </div>*@
+                                    
+                               
+                                        @*<div class="left">
+                                             <img class="thumb" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Specialist.Avatar))" alt="Avatar" />
+                                            <div class="purchase">
+                                                <h6> <a href="#">@Model.Specialist.Name @Model.Specialist.FullName</a> </h6> <span>@Model.Specialist.CategoryName</span>
+                                            </div>
+
+                                         </div>
+                                    @if (Model.ReseptionItems != null)
+                                    {
+                                        <span class="price">@Model.ReseptionItems.Time</span>
+
+                                    }
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12"> <span>Вы успешно записаны!</span> </div>
+                                </div>
+                            </div>*@
+                       
+                    </div>
+                        
+            </div>
+        </div>
+    </div>
+  
+</div>
+@section scripts{
+    <script>
+        //$(document).ready(function () {
+            //$('#smartwizard').smartWizard();
+            $('#smartwizard').smartWizard({
+                selected: 0,
+                theme: 'square',
+                autoAdjustHeight: true,
+               
+                //transitionEffect: 'fade',
+                transition: {
+                    animation: 'fade',
+                },
+                 toolbar: {
+                     showNextButton: false, // show/hide a Next button
+                     showPreviousButton: false, // show/hide a Previous button
+                 },
+                anchor: {
+                    
+                    markDoneStep: true,
+                },
+                style: {                 
+                mainCss: 'sw',                    
+                navCss: 'nav',
+                navLinkCss: 'nav-link',
+                contentCss: 'tab-content',
+                contentPanelCss: 'tab-pane',
+                themePrefixCss: 'sw-theme-',
+                anchorDefaultCss: 'default',
+                anchorDoneCss: 'done',
+                anchorActiveCss: 'active',
+                anchorDisabledCss: 'disabled',
+                anchorHiddenCss: 'hidden',
+                anchorErrorCss: 'error',
+                anchorWarningCss: 'warning',
+                justifiedCss: 'sw-justified',
+                btnCss: 'sw-btn',
+                btnNextCss: 'sw-btn-next',
+                btnPrevCss: 'sw-btn-prev',
+                loaderCss: 'sw-loading',
+                progressCss: 'progress',
+                progressBarCss: 'progress-bar',
+                toolbarCss: 'toolbar',
+                toolbarPrefixCss: 'toolbar-',
+              }
+
+
+                            //showStepURLhash: false,
+                //unDoneOnBackNavigation: false
+           
+            });
+
+        //});
+       
+        function setTime(id, idSp) {
+         //alert(id);
+           
+            $.ajax({
+                url: '@Url.Action("AddToReseption", "Reseption")',
+                data: { "timeId": id , "id":idSp},
+                success: function (response) {
+                   
+                    document.location.href = '#step-2';
+                    location.reload();
+                    //setTimeout(function () {
+                    //    location.reload();
+                    //}, 2000);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+                
+            });
+            
+        };
+        function save(id){
+            var n = $('input#name').val();
+            var ph = $('input#phone').val();
+            
+            $.ajax({
+                method:'Post',
+                url: '@Url.Action("CheckSignUp", "SignUp")',
+                data: { "name": n, "phone": ph, "timeId": id},
+                success: function (response) {
+                        Swal.fire({
+                            title: 'Вы успешно записаны',
+                            showClass: {
+                                popup: 'animate__animated animate__fadeInDown'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            }
+                        });
+                    setTimeout(function (){
+                        document.location.href = '#step-3';
+                        location.reload();
+                    }, 1500);
+                       
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+
+            });
+                //document.location.href = '#step-3';
+        };
+            function ToHome(){
+                document.location.href = '@Url.Action("Index", "Home")';
+                location.reload();
+            };
+        function er() {
+
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Your work has been saved',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        };
+    </script>
+   
+ }
+        <script src="https://cdn.jsdelivr.net/npm/smartwizard@6/dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
+        <script src="https://unpkg.com/smartwizard@6/dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
+</body>

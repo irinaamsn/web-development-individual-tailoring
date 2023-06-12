@@ -1,0 +1,19 @@
+﻿@model IEnumerable<CategorySpecialist>
+<h2>Категории специалистов</h2>
+<div class="row mt-5 mb-2">
+    @{
+        foreach (CategorySpecialist cat in Model)
+        {
+           if (cat.isEmpty)
+           {
+                <div class="col-md-4">
+                    <h2> @cat.Name </h2>
+                    <p> <a class="btn btn-warning" asp-controller="Specialist" asp-action="List" asp-route-category="@cat.Name">Выбрать</a></p>
+                </div>
+           }
+        }
+
+    }
+</div>
+
+

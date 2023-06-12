@@ -1,0 +1,287 @@
+﻿@model UserViewModel
+
+<div class="row card-sign body">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="met-profile">
+                    <div class="row ">
+                        <div class="col-lg-4 align-self-center mb-3 mb-lg-0">
+                            <div class="met-profile-main">
+                                <div class="met-profile-main-pic">
+                                   @* <img src="assets/images/users/user-4.jpg" alt="" height="110" class="rounded-circle">*@
+                                    <span class="met-profile_main-pic-change">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                    </span>                                   
+                                </div>
+                                <div class="met-profile_user-detail">
+                                    <h5 class="met-user-name">@User.Identity.Name</h5>
+                                  @*  <p class="mb-0 met-user-name-post">UI/UX Designer, India</p>*@
+                                </div>
+                            </div>
+                        </div><!--end col-->
+                        <div class="col-lg-4 ms-auto align-self-center">
+                            <ul class="list-unstyled personal-detail mb-0">
+                                <li class=""><i class="fa fa-mobile text-secondary align-middle" aria-hidden="true" style="font-size:26px;"></i> <b> Номер телефона </b> : +91 23456 78910</li>
+                                <li class="mt-2"><i class="fa fa-envelope-o text-secondary align-middle mr-2" aria-hidden="true" style="font-size:20px;"></i> <b> Почта </b> : @User.Identity.Name</li>                              
+                            </ul>
+                        </div>
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div><!--end f_profile-->
+        </div><!--end card-body-->
+        <div class="card-body p-0">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#" data-bs-toggle="tab"  role="tab" aria-selected="true" onclick="openSign()">Текущая запись</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-bs-toggle="tab"  role="tab" aria-selected="false" onclick="openOld()">Архив записей</a>
+                </li>
+                @*<li class="nav-item">
+					<a class="nav-link" asp-action="Settings" asp-controller="PersonalAccount" asp-route-name="@User.Identity.Name"   aria-selected="false">Настройки</a>
+                </li>*@
+            </ul>
+            <div class="tab-content" >
+                <div class="tab-pane p-3 active" id="OldId" role="tabpanel">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            
+                            <div class="card">
+
+                                <div class="card-body">
+                                    <div class="row d-flex justify-content-center">
+                                        <div class="post-title ">
+                                            <h4 href="#" class="font-20 fw-bold d-block mt-3 mb-4">Архив записей</h4>
+                                            
+                                            @if (Model.OldSigns.Count > 0)
+                                            {
+                                                
+                                                    <div class="container profile-page">
+                                                        <div class="row">
+                                                        @foreach (var data in Model.OldSigns)
+                                                        {
+                                                            if(!data.isDelete)
+                                                        {<div class="col-xl-3 col-lg-3 col-md-3">
+                                                            <div class="card card-data profile-header">
+                                                                <div class="body">
+                                                                    <div class="row">
+                                                                   @* <div class="col-lg-4 col-md-4 col-12">
+                                                                                <div class="profile-image float-md-right"> <img src="data:image/jpeg;base64,@(Convert.ToBase64String(data.)"  alt=""> </div>
+                                                                      
+                                                                                    
+                                                                        </div>*@
+                                                                        <div class="col-lg-12 col-md-12 col-12 b-flex justify-content-center align-content-center">
+                                                                            <h4 class="m-t-0 m-b-0"><strong>@data.SpecialistName</strong> </h4>
+                                                                            <span class="job_post">@data.CategoryName</span>
+                                                                            <p class="fonts"><i class="fa fa-calendar" aria-hidden="true"></i> @data.Time</p>
+                                                                            <input id="dataId" value="@data.Id" hidden>
+                                                                            <div>
+                                                                                @if (data.isServiced @*&& !data.isRate*@)
+                                                                                {
+                                                                                    <a class="btn btn-primary btn-round"  asp-controller="PersonalAccount" asp-action="RateMaster" asp-route-id="@data.SpecialistId" asp-route-storId="@data.Id">Оставить отзыв</a>
+                                                                                }
+
+                                                                                        <a class="btn btn-primary btn-round btn-simple " id="deleteData" onclick="deleteData(@data.Id)" @*asp-controller="DataStorage" asp-action="DeleteData" asp-route-id="@data.Id"*@>Удалить</a>
+                                                                            </div>
+                                                                            
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        }
+                                                        }
+                                                    </div>
+                                                </div>
+                                                
+                                            }
+                                            else
+                                            {                                                
+                                                <div class="d-flex justify-content-center align-content-center">
+                                                    <h2 class="milky">Архив пуст</h2>
+                                                </div>                                                
+                                            } 
+
+                                        </div>
+                                    
+                                    </div>
+                                </div><!--end card-body-->
+                            </div> <!--end card-->
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane p-3 active" id="SignId" role="tabpanel" >
+                    <div class="row">
+                        <div class="col-lg-9">
+
+                            <div class="card card-sign">
+
+                                <div class="card-body">
+                                    <div class="row d-flex justify-content-center">
+                                        <div class="col-md-7">
+                                            @if (Model.Sign != null && !Model.Sign.isDelete)
+                                            {
+                                                <div class="card p-3 py-4">
+
+                                                    <div class="text-center">
+                                                        <img class="rounded-circle" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Specialist.Avatar))" width="100" alt="Avatar" />
+                                                    </div>
+
+                                                    <div class="text-center mt-3">
+                                                        <span class="bg-secondary p-1 px-4 rounded text-white">@Model.Specialist.CategoryName</span>
+                                                        <h5 class="mt-2 mb-0">@Model.Specialist.Name @Model.Specialist.FullName</h5>
+                                                        <span>Стаж: @Model.Specialist.Experience</span>
+                                                        <input id ="signVal" value="@Model.Sign.Id" hidden>
+                                                        <div class="px-4 mt-1">
+                                                            @* <p>Время записи:</p>*@
+                                                            <p class="fonts"> <i class="fa fa-calendar" aria-hidden="true"></i> @Model.Sign.Time</p>
+
+                                                        </div>
+
+                                                        <ul class="social-list">
+                                                            <li><i class="fa fa-phone" aria-hidden="true"></i> @Model.Specialist.Phone</li>
+                                                        </ul>
+
+                                                        <div class="buttons">
+
+                                                           
+                                                            <a class="btn btn-outline-primary px-4" asp-controller="Specialist" asp-action="ProfileDetail" asp-route-idSp="@Model.Specialist.Id">Открыть</a>
+                                                            <a class="btn btn-primary px-4 ms-3 cancel" @*asp-controller="PersonalAccount" asp-action="CancelSignUp" asp-route-signId="@Model.Sign.Id" asp-route-name="@User.Identity.Name" asp-route-timeId="@Model.Time.Id"*@>Отменить</a>
+                                                            @* <button class="btn btn-primary ">Contact</button>*@
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                                
+                                               
+                                            }
+                                            else{
+                                                <h2 class="milky">Записи нет</h2>
+                                            }
+                                        </div>
+                                        @section scripts{
+                                            <script>
+                                                $(".cancel").click(function () {
+
+                                                    Swal.fire({
+                                                        title: 'Вы уверены?',
+                                                        text: "Вы не сможете это отменить!",
+                                                        icon: 'warning',
+                                                        showCancelButton: true,
+                                                        confirmButtonColor: '#3085d6',
+                                                        cancelButtonColor: '#d33',
+                                                        cancelButtonText: 'Отменить',
+                                                        confirmButtonText: 'Да, отменить!'
+                                                    }).then((result) => {
+                                                        if (result.isConfirmed) {
+
+                                                            Swal.fire(
+                                                                'Отменено!',
+                                                                'Ваша запись была отменена.',
+                                                                'success'
+                                                            )
+                                                            setTimeout(function () {
+                                                                var sim = $("#signVal").val();
+                                                              
+                                                                $.ajax({
+                                                                    url: '@Url.Action("CancelSignUp", "PersonalAccount")',
+                                                                    data: { "signId": sim },
+                                                                    success: function (response) {
+                                                                        location.reload();
+                                                                    },
+                                                                    error: function (response) {
+                                                                        alert(response.responseText);
+                                                                    }
+                                                                });
+                                                                
+                                                                //document.location.href = 'Url.Action("CancelSignUp","PersonalAccount", new{signId= Model.Sign.Id })';
+                                                            }, 1500)
+                                                            
+                                                        }
+                                                    });
+                                                });
+                                               function deleteData(sim) {
+                                                    
+                                                    Swal.fire({
+                                                        title: 'Вы уверены?',
+                                                        text: "Вы не сможете это отменить!",
+                                                        icon: 'warning',
+                                                        showCancelButton: true,
+                                                        confirmButtonColor: '#3085d6',
+                                                        cancelButtonColor: '#d33',
+                                                        cancelButtonText: 'Отменить',
+                                                        confirmButtonText: 'Да, удалить!'
+                                                    }).then((result) => {
+                                                        if (result.isConfirmed) {
+
+                                                            Swal.fire(
+                                                                'Удалено!',
+                                                                'Удаление прошло успешно.',
+                                                                'success'
+                                                            )
+                                                            setTimeout(function () {
+                                                               // var sim = $("#dataId").val();
+                                                               
+                                                                $.ajax({
+                                                                    url: '@Url.Action("DeleteData", "DataStorage")',
+                                                                    data: { "id": sim },
+                                                                    success: function (response) {
+                                                                        location.reload();
+                                                                    },
+                                                                    error: function (response) {
+                                                                        alert(response.responseText);
+                                                                    }
+                                                                });
+
+                                                            }, 1500)
+
+                                                        }
+                                                    });
+                                                };
+
+
+                                            </script>
+                                        }
+                                    </div>
+                                    <script>
+
+                                        //var modal = $('#modal');
+
+                                        //$(".btn-close").click(function (evt) {
+                                        //    evt.preventDefault();
+                                        //    modal.modal('hide');
+                                        //    document.location.href =
+                                        //});
+                                        
+                                        function openSign() {
+                                            $("div#SignId").show();
+                                            $("div#OldId").hide();
+
+                                        };
+                                        function openOld() {
+                                            $("div#SignId").hide();
+                                            $("div#OldId").show();
+
+                                        };
+
+                                        
+                                    </script>
+
+                                </div><!--end card-body-->
+                            </div> <!--end card-->
+                        </div>
+                    </div>
+                </div>
+                
+            </div> 
+        </div>
+    </div>
+</div>
+
+
+   
+
+

@@ -1,0 +1,68 @@
+﻿@model WorkViewModel
+
+<div class="row">
+    <h2 class="fw-bold mb-0 fs-2">Добавление работы</h2>
+    <form id="formForAddWork" asp-controller="Master" asp-action="AddWork" asp-route-work="@Model" method="post" class="form-horizontal" enctype="multipart/form-data">
+		<div class="input-group">
+			<div class="input-group-prepend">
+				<span class="input-group-text" id="inputGroupFileAddon01">Загрузка</span>
+			</div>
+			<div class="custom-file">
+				<input asp-for=Avatar type="file" class="custom-file-input" id="inputGroupFile01"
+					   aria-describedby="inputGroupFileAddon01" >
+				<label asp-for=Avatar class ="custom-file-label" for="inputGroupFile01">Выбрать файл</label>
+			</div>
+		</div>
+        <input class="btn btn-success" type="submit" id="addWork" value="Добавить" />
+	</form>
+</div>
+
+@section pageScripts{
+    <script>
+       // Swal.fire('Any fool can use a computer')
+        //$('#addWork').on("click",function(e){
+        //    e.preventDefault();
+        //       var data = $('#formForAddWork').val()
+        //        $.ajax({
+        //            type: 'POST',
+        //            url: '@Url.Action("AddWork","Master")',
+        //            data:data,
+        //            success: function(response){
+        //                    Swal.fire('Any fool can use a computer')
+        //            }
+
+        //        })
+                   
+        //    })
+        //})
+        $(function () {
+            //$.ajaxSetup({ cache: false });
+            $("input#addWork").click(function () {
+
+                //e.preventDefault();
+                $.get(this.href, function () {
+                   // $('#dialogContent').html(data);
+                    $('#formForAddWork').modal('show');
+                });
+            });
+        })
+    </script>
+    
+}
+    <div class="modal modal-sheet position-static d-block bg-secondary py-5" tabindex="-1" role="dialog" id="modalSheet">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content rounded-4 shadow">
+                <div class="modal-header border-bottom-0">
+                    <h1 class="modal-title fs-5">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body py-0">
+                    <p>This is a modal sheet, a variation of the modal that docs itself to the bottom of the viewport like the newer share sheets in iOS.</p>
+                </div>
+                <div class="modal-footer flex-column border-top-0">
+                    <button type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2">Save changes</button>
+                    <button type="button" class="btn btn-lg btn-light w-100 mx-0" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>

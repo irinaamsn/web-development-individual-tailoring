@@ -1,0 +1,10 @@
+﻿@model IEnumerable<CategorySpecialist>
+
+<select id="specialists" name="specialists">
+	@{
+		foreach (var item in Model)
+		{
+			<option>@item.Name</option>
+		}
+	}
+</select>

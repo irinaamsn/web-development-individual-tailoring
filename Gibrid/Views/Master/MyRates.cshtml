@@ -1,0 +1,282 @@
+﻿@model List<Reviews>
+<div class="container ">
+    <div id="filters" class="row filters" style="padding:40px;">
+
+
+        <select class="menu dropdown-menu-light" id="list" onchange='findOption(this)'>
+            <option selected="selected" value="new" id="new">Сначала новые</option>
+            <option value="old" id="old">Сначала старые</option>
+            <option value="pos" id="pos">Сначала положительные</option>
+            <option value="neg" id="neg">Сначала отрицательные</option>
+        </select>
+
+    </div>
+    <div class="row testimonialAll" id="newDiv">
+
+        @{
+            var array = Model.OrderBy(x => x.Id).ToArray();
+        }
+        @for (int i = 0; i < array.Count(); i++)
+        {
+            <section class="col-md-12 testimonial" id="@array[i].Id">
+                <div class="row">
+                    <div class="time col-md-9  ">
+                    </div>
+                    <div class="time col-md-3 d-flex justify-content-end">
+                        <h6>@array[i].DateReview</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="avatar col-md-5 b-flex justify-content-center align-items-center">
+                        <a href="#">
+                            <img class="img-circle" src="https://bootdey.com/img/Content/user_3.jpg" alt="Avatar">
+                        </a>
+                        <div type="context" class="ratingUser social-info" data-val="@array[i].Rating">
+                            <i class="fa fa-star" id="@i+1"></i>
+                            <i class="fa fa-star" id="@i+2"></i>
+                            <i class="fa fa-star" id="@i+3"></i>
+                            <i class="fa fa-star" id="@i+4"></i>
+                            <i class="fa fa-star" id="@i+5"></i>
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                        var rat = @array[i].Rating;
+
+                        if (rat == 1) document.getElementById("@i+1").style.color = "gold";
+                        else if (rat == 2) {
+                            document.getElementById("@i+1").style.color = "gold";
+                            document.getElementById("@i+2").style.color = "gold";
+                        }
+                        else if (rat == 3) {
+                            document.getElementById("@i+1").style.color = "gold";
+                            document.getElementById("@i+2").style.color = "gold";
+                            document.getElementById("@i+3").style.color = "gold";
+                        }
+                        else if (rat == 4) {
+
+                            document.getElementById("@i+1").style.color = "gold";
+                            document.getElementById("@i+2").style.color = "gold";
+                            document.getElementById("@i+3").style.color = "gold";
+                            document.getElementById("@i+4").style.color = "gold";
+                        }
+                        else if (rat == 5) {
+
+                            document.getElementById("@i+1").style.color = "gold";
+                            document.getElementById("@i+2").style.color = "gold";
+                            document.getElementById("@i+3").style.color = "gold";
+                            document.getElementById("@i+4").style.color = "gold";
+                            document.getElementById("@i+5").style.color = "gold";
+
+                        }
+                    </script>
+                    <div class="testimonial-main col-md-7">
+                        <h4 class="media-heading"><a href="#m">@array[i].UserName</a></h4>
+                        <p class="testimony-body">@array[i].Text</p>
+                    </div>
+                </div>
+
+            </section>
+        }
+        <div class="btn-center">
+            <button class="show-more">Показать еще</button>
+        </div>
+
+        <div class="height"></div>
+    </div>
+    <div class="row testimonialAll2" id="oldDiv">
+
+        @{
+            var array2 = Model.OrderByDescending(x => x.Id).ToArray();
+        }
+        @for (int i = 0; i < array2.Count(); i++)
+        {
+            <section class="col-md-12 testimonial2" id="@array2[i].Id">
+                <div class="row">
+                    <div class="time col-md-9  ">
+                    </div>
+                    <div class="time col-md-3 d-flex justify-content-end">
+                        <h6>@array2[i].DateReview</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="avatar col-md-5 b-flex justify-content-center align-items-center">
+                        <a href="#">
+                            <img class="img-circle" src="https://bootdey.com/img/Content/user_3.jpg" alt="Avatar">
+                        </a>
+                        <div type="context" class="ratingUser social-info" data-val="@array2[i].Rating">
+                            <i class="fa fa-star" id="@i+11"></i>
+                            <i class="fa fa-star" id="@i+22"></i>
+                            <i class="fa fa-star" id="@i+33"></i>
+                            <i class="fa fa-star" id="@i+44"></i>
+                            <i class="fa fa-star" id="@i+55"></i>
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                        var rat = @array2[i].Rating;
+
+                        if (rat == 1) document.getElementById("@i+11").style.color = "gold";
+                        else if (rat == 2) {
+                            document.getElementById("@i+11").style.color = "gold";
+                            document.getElementById("@i+22").style.color = "gold";
+                        }
+                        else if (rat == 3) {
+                            document.getElementById("@i+11").style.color = "gold";
+                            document.getElementById("@i+22").style.color = "gold";
+                            document.getElementById("@i+33").style.color = "gold";
+                        }
+                        else if (rat == 4) {
+
+                            document.getElementById("@i+11").style.color = "gold";
+                            document.getElementById("@i+22").style.color = "gold";
+                            document.getElementById("@i+33").style.color = "gold";
+                            document.getElementById("@i+44").style.color = "gold";
+                        }
+                        else if (rat == 5) {
+
+                            document.getElementById("@i+11").style.color = "gold";
+                            document.getElementById("@i+22").style.color = "gold";
+                            document.getElementById("@i+33").style.color = "gold";
+                            document.getElementById("@i+44").style.color = "gold";
+                            document.getElementById("@i+55").style.color = "gold";
+
+                        }
+                    </script>
+                    <div class="testimonial-main col-md-7">
+                        <h4 class="media-heading"><a href="#m">@array2[i].UserName</a></h4>
+                        <p class="testimony-body">@array2[i].Text</p>
+                    </div>
+                </div>
+
+            </section>
+        }
+        <div class="btn-center">
+            <button class="show-more2">Показать еще</button>
+        </div>
+
+        <div class="height"></div>
+    </div>
+
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $("#oldDiv").hide();
+        const showMore = document.querySelector('.show-more');
+        const productsLength = document.querySelectorAll('.testimonial').length;//todo
+        let items = 3;
+        const showMore2 = document.querySelector('.show-more2');
+        const productsLength2 = document.querySelectorAll('.testimonial2').length;
+        let items2 = 3;
+
+        function findOption(select) {
+
+            if ($("#new").is(':checked')) {
+                $("#newDiv").show();
+                $("#oldDiv").hide();
+            }
+            if ($("#old").is(':checked')) {
+                $("#newDiv").hide();
+                $("#oldDiv").show();
+            }
+            // Действия над option
+        }
+
+
+        function mySort() {
+            alert('sort');
+            var input, input2, filter, filter2, table, tr, td, td2, selectedId, td3, i, j, txtValue, txtValue2, txtValue3, min, max, inputMin, inputMax;
+
+            arrRev = document.getElementById("allReviews");
+            tr = arrRev.getElementsByTagName("section");
+
+
+            for (let j = 0; j < tr.length; j++) {
+                for (let i = 0; i < tr.length - 1 - j; i++) {
+                    td = tr[i].getAttribute("id");
+                    td2 = tr[i + 1].getAttribute("id");
+
+                    if (td && td2) {
+
+
+                        if (td < td2) {
+                            var left = document.getElementById(td);
+                            var right = document.getElementById(td2);
+
+                            document.getElementById(td2).append(right);
+                            document.getElementById(td).append(left);
+
+                            //var temp = tr[i].innerHTML;
+                            //tr[i].innerHTML = tr[i + 1].innerHTML;
+                            //tr[i + 1].innerHTML = temp;
+                        }
+
+                    }
+                }
+            }
+        };
+        function filterFunction() {
+            var input, filter, ul, li, a, i;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            div = document.getElementById("myDropdown");
+            a = div.getElementsByTagName("a");
+            for (i = 0; i < a.length; i++) {
+                txtValue = a[i].textContent || a[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    a[i].style.display = "";
+                } else {
+                    a[i].style.display = "none";
+                }
+            }
+        };
+
+        showMore.addEventListener('click', () => {
+            items += 1;
+            const array = Array.from(document.querySelector('.testimonialAll').children);
+            const visItems = array.slice(0, items);
+
+            visItems.forEach(el => el.classList.add('is-visible'));
+
+            if (visItems.length === productsLength) {
+                showMore.style.display = 'none';
+            }
+        });
+        showMore2.addEventListener('click', () => {
+            items2 += 1;
+            const array2 = Array.from(document.querySelector('.testimonialAll2').children);
+            const visItems2 = array2.slice(0, items2);
+
+            visItems2.forEach(el2 => el2.classList.add('is-visible'));
+
+            if (visItems2.length === productsLength2) {
+                showMore2.style.display = 'none';
+            }
+        });
+
+        const sim = parseInt(document.querySelector('.ratings').getAttribute('data-val'));
+        if (sim == 1) $('#star1').css('color', '#388E3C');
+        else if (sim == 2) {
+            $('#star1').css('color', 'gold');
+            $('#star2').css('color', 'gold');
+        }
+        else if (sim == 3) {
+            $('#star1').css('color', 'gold');
+            $('#star2').css('color', 'gold');
+            $('#star3').css('color', 'gold');
+        }
+        else if (sim == 4) {
+            $('#star1').css('color', 'gold');
+            $('#star2').css('color', 'gold');
+            $('#star3').css('color', 'gold');
+            $('#star4').css('color', 'gold');
+        }
+        else if (sim == 5) {
+            $('#star1').css('color', 'gold');
+            $('#star2').css('color', 'gold');
+            $('#star3').css('color', 'gold');
+            $('#star4').css('color', 'gold');
+            $('#star5').css('color', 'gold');
+        }
+
+
+    </script>
+    }

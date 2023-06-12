@@ -1,0 +1,244 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Gibrid</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Gibrid.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Gibrid.styles.css" asp-append-version="true" />
+    <link rel="shortcut icon" href="~/images/favicon.ico" asp-append-version="true">
+    <link href="~/lib/bootstrap/dist/css/icons.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/bootstrap/dist/css/swiper-bundle.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/bootstrap/dist/css/app.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/bootstrap/dist/css/font-amesome.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="https://cdn.jsdelivr.net/npm/smartwizard@6/dist/css/smart_wizard_all.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://unpkg.com/smartwizard@6/dist/css/smart_wizard_all.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="~/lib/bootstrap/dist/css/bootstrap-datetimepicker.min.css" rel="stylesheet" asp-append-version="true">
+    <link href="~/lib/bootstrap/dist/js/bootstrap-datetimepicker.css" rel="stylesheet" asp-append-version="true">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/smart_wizard.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/smart_wizard_theme_arrows.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/smart_wizard_theme_square.min.css" rel="stylesheet" type="text/css" />
+</head>
+<body > 
+        <header >
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark fixed-top  box-shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">GLAM TAILOR</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1 ">
+						@if (User.IsInRole("user") && SignInManager.IsSignedIn(User))
+						{
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#about">О нас</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#works">Наши работы</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="services">Услуги</a>
+                            </li>
+                            <li class="nav-item dropdown">
+
+                                <a class="nav-link dropdown-toggle" asp-area="" asp-controller="Specialist" asp-action="List" id="navbarDarkDropdownMenuLink"  data-bs-toggle="dropdown" aria-expanded="false">
+                                    Наши специалисты
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                                    
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Specialist" asp-action="List" asp-route-category="Ученик">Ученик</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Specialist" asp-action="List" asp-route-category="Мастер высшей категории">Мастер высшей категории</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Specialist" asp-action="List" asp-route-category="Профессионал">Профессионал</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Specialist" asp-action="List" asp-route-category="">Посмотреть всех</a></li>
+                                </ul>
+                            </li>
+                            }
+                        else if (User.IsInRole("admin") && SignInManager.IsSignedIn(User))
+                        {
+                           <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Roles" asp-action="Index">Пользователи</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="AddCategory">Добавить категорию</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="AddSpecialist">Добавить специалиста</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Specialist" asp-action="List">Добавить время</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="AddService">Добавить услугу</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="AddWork">Добавить работу</a>
+                            </li>
+
+						}
+                        
+                        </ul>
+                      @*  else if (User.IsInRole("master") && SignInManager.IsSignedIn(User))
+                        {
+                            <input class="form-control form-control-dark w-100" type="text" placeholder="Поиск" aria-label="Поиск">
+                            <div class="navbar-nav">
+                                <div class="nav-item text-nowrap">
+                                    <form id="logoutForm" class="form-inline" asp-area="" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                        <button id="logout" type="submit" class="nav-link btn btn-link">Выйти</button>
+                                    </form>
+                                </div>
+                            </div>
+                        }*@
+                        <ul class="navbar-nav ">
+                        @if ( !User.IsInRole("master"))
+                        {
+                            if (SignInManager.IsSignedIn(User))
+                            {
+                                <li class="nav-item dropdown notification-list">
+                                    <a class="nav-link dropdown-toggle  nav-icon" data-bs-toggle="dropdown" role="button" asp-action="MyAlerts" asp-controller="PersonalAccount" asp-route-name="@User.Identity.Name">
+                                        <i class="fa fa-bell-o" aria-hidden="true" style="font-size:22px;"></i>
+                                        <span class="alert-badge"></span>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end dropdown-lg pt-0">
+                                        @{
+                                           
+                                        }
+                                    </div>
+                                </li>
+                                <li class="dropdown">
+                                    <a class="nav-link dropdown-toggle nav-user" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                         <div class="d-flex align-items-center">
+                                            @*<small class="d-none d-md-block font-11">Admin</small>*@
+                                            <span id="manage" class="nav-link d-none d-md-block">Hello @UserManager.GetUserName(User)!</span>
+                                        </div>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="PersonalAccount" asp-action="Signs" asp-route-name="@User.Identity.Name" title="Manage"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Записи</a></li>
+                                        <li>
+                                            <a class="dropdown-item" asp-area="" asp-controller="PersonalAccount" asp-action="Settings" asp-route-name="@User.Identity.Name"><i class="fa fa-cog" aria-hidden="true"></i> Настройки</a>
+                                        </li>
+                                        <li><div class="dropdown-divider mb-0"></div></li>
+                                        <li class="nav-item">
+                                            <form id="logoutForm" class="form-inline" asp-area="" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                                <button id="logout" type="submit" class="nav-link btn btn-link" aria-hidden="true" style="color:black;">Выйти</button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </li>
+                          
+                               @* <li class="nav-item">
+                                    <a id="manage" class="nav-link" asp-area="" asp-controller="PersonalAccount" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                                </li>
+                                <li class="nav-item">
+                                    <form id="logoutForm" class="form-inline" asp-area="" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                        <button id="logout" type="submit" class="nav-link btn btn-link">Logout</button>
+                                    </form>
+                                </li>*@
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" id="register" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="login" asp-area="" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">Login</a>
+                                </li>
+                            }
+                        }
+                        </ul>                       
+                    </div>
+                </div>
+            </nav>        
+    </header>
+    
+    @RenderBody()
+
+    <footer id="footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="footer-info">
+                            <h3 style="color:#fff;">GLAM TAILOR<span>.</span></h3>
+                            <p>
+                                улица Большая Якиманка, 15, 1 этаж, <br>
+                                Москва<br><br>
+                                <strong>Телефон:</strong> +7 985 547 24 85<br>
+                                <strong>Почта:</strong> rom@myroma.ru<br>
+                            </p>
+                            <div class="social-links mt-3">
+                                <a href="#" class="twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                                <a href="#" class="facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                                <a href="#" class="instagram"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                                <a href="#" class="google-plus"><i class="fa fa-skype" aria-hidden="true"></i></a>
+                                <a href="#" class="linkedin"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 footer-links">
+                        <h4>Полезные ссылки</h4>
+                        <ul>
+                            <li><i class="fa fa-angle-right" aria-hidden="true"></i> <a href="#">Главная</a></li>
+                            <li><i class="fa fa-angle-right" aria-hidden="true"></i> <a href="#about">О нас</a></li>
+                            <li><i class="fa fa-angle-right" aria-hidden="true"></i> <a href="#services">Услуги</a></li>
+                            <li><i class="fa fa-angle-right" aria-hidden="true"></i> <a href="#works">Работы</a></li>
+                            <li><i class="fa fa-angle-right" aria-hidden="true"></i> <a href="#clients">Клиенты</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-4 col-md-6 footer-links">
+                        <h4> Наши Услуги</h4>
+                        <ul>
+                            <li><i class="fa fa-angle-right" aria-hidden="true"></i> <a href="#services">Пошив партий средним и крупным оптом</a></li>
+                            <li><i class="fa fa-angle-right" aria-hidden="true"></i> <a href="#services">Разработка лекал и технической документации</a></li>
+                            <li><i class="fa fa-angle-right" aria-hidden="true"></i> <a href="#services">Подбор тканей и фурнитуры</a></li>
+                            <li><i class="fa fa-angle-right" aria-hidden="true"></i> <a href="#services">Пошив тестового образца</a></li>
+                            <li><i class="fa fa-angle-right" aria-hidden="true"></i> <a href="#services">Пошив мерча</a></li>
+                            <li><i class="fa fa-angle-right" aria-hidden="true"></i> <a href="#services">Помощь с маркетплейсами и маркетингом</a></li>
+                        </ul>
+                    </div>
+               </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="copyright">
+                &copy; Авторское право <strong><span>Glam Tailor</span></strong>. Все права защищены
+            </div>
+            <div class="credits">
+                
+                Разработан  <span style="color: #ffc451;">Myasnikova I.I.</span>
+            </div>
+        </div>
+    </footer>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/jquery.smartWizard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-steps/1.1.0/jquery.steps.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/lib/bootstrap/dist/js/jquery.steps.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="”text/javascript”" src="”https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js”"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/lib/bootstrap/dist/js/jquery.smartWizard.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap-datetimepicker.js"></script>
+    <script src="~/lib/bootstrap/dist/js/swiper-bundle.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/smartwizard@6/dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
+    <script src="https://unpkg.com/smartwizard@6/dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

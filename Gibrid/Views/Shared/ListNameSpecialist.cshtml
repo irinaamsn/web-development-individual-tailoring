@@ -1,0 +1,14 @@
+﻿@model Specialist
+
+@if (@Model.isHasTime)
+{
+	<div class="col-md-4">
+		<h2> @Model.Name </h2>
+		<p>@Model.FullName</p>
+		<p> <a class="btn btn-warning" asp-controller="Time" asp-action="List" asp-route-id="@Model.Id">Выбрать</a></p>
+	</div>
+}
+else 
+{ 
+    <h2>Нет свободных специалистов данной категории</h2>
+}

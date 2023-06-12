@@ -1,0 +1,639 @@
+﻿@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@{
+    ViewData["Title"] = "Home Page";
+}
+@model HomeViewModel
+
+
+<body onload="randomQuotes()">
+
+
+<div id="hero" class="d-flex align-items-center justify-content-center">
+    <div class="container" data-aos="fade-up">
+        <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="150">
+            <div class="col-xl-6 col-lg-8">
+                <h1>Индивидуальный пошив одежды в Москве<span>.</span></h1>
+                <h3 id="h3"><span>5 ЛЕТ НА РЫНКЕ  <i class="fa fa-circle" aria-hidden="true" style="color:#ffd584;height:50%;"></i>  БОЛЕЕ 15000 КЛИЕНТОВ  <i class="fa fa-circle" aria-hidden="true" style="color:#ffd584"></i>  ОФИС В ЦЕНТРЕ МОСКВЫ</span></h3>
+            </div>
+        </div>
+        <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="150">
+            <div class="col-xl-6 col-lg-8">
+                <h2 id="services"></h2>
+            </div>
+        </div>
+        <div class="row gy-4 mt-5 justify-content-center" data-aos="zoom-in" data-aos-delay="250"> 
+            <div class="col-xl-2 col-md-4">
+                <div class="icon-box">
+                    <i class="ri-database-2-line"></i>
+                    <h3><a  href="/Specialist/List">Записаться</a></h3>
+                </div>
+            </div>          
+        </div>
+    </div>
+</div><!-- End Hero -->
+<main id="main">
+<section id="about" class="about">
+    <div class="container" data-aos="fade-up">
+        <div class="row">
+            <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-left" data-aos-delay="100">
+                <img src="/images/about.jpg" class="img-fluid" alt="">
+            </div>
+            <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content" data-aos="fade-right" data-aos-delay="100">
+                <h2>О нашем производстве</h2>
+                @*<ul>
+                    <li><i class="fa fa-check" aria-hidden="true"></i> Мы находимся в Москве. Над Вашими заказами будут работать команда профессиональных швей, закройщиков, утюжильщиков, технологов, конструкторов и дизайнеров.</li>
+                    <li><i class="fa fa-check" aria-hidden="true"></i> На производстве используются современное оборудование для работы с тканями и создания высокоточных лекал.</li>
+                    <li><i class="fa fa-check" aria-hidden="true"></i> Также у нас есть единственная в России глазковая петельная машина для достижения исключительной аккуратности создания петель!</li>
+                </ul>*@
+                <p class="fst-italic">
+                    Мы находимся в Москве. Над Вашими заказами будут работать команда профессиональных швей, закройщиков, утюжильщиков, технологов, конструкторов и дизайнеров.
+                </p>
+                <p>
+                    На производстве используются современное оборудование для работы с тканями и создания высокоточных лекал.
+                </p>
+                <p>
+                    Также у нас есть единственная в России глазковая петельная машина для достижения исключительной аккуратности создания петель!
+                </p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section id="clients" class="clients">
+    <div class="container" data-aos="zoom-in">
+        <div class="clients-slider swiper">
+            <div class="swiper-wrapper align-items-center">
+                <div class="swiper-slide"><img src="/images/clients/2mimor_logo.png" class="img-fluid" alt=""></div>
+                <div class="swiper-slide"><img src="/images/clients/b238f0fb6cb297ad6d06.jpg" class="img-fluid" alt=""></div>
+                <div class="swiper-slide"><img src="/images/clients/EASE_bl_1.png" class="img-fluid" alt=""></div>
+                <div class="swiper-slide"><img src="/images/clients/tild6633-3238-4930-a.png" class="img-fluid" alt=""></div>
+                <div class="swiper-slide"><img src="/images/clients/unique-fabric.png" class="img-fluid" alt=""></div>
+                <div class="swiper-slide"><img src="/images/clients/WhatsApp_Image_2023-.jpeg" class="img-fluid" alt=""></div>
+                <div class="swiper-slide"><img src="/images/clients/whoosh.png" class="img-fluid" alt=""></div>
+                <div class="swiper-slide"><img src="/images/clients/__.png" class="img-fluid" alt=""></div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+</section>
+
+<section id="services" class="services">
+    <div class="container" data-aos="fade-up">
+        <div class="section-title">
+            <h2>Услуги</h2>
+            <p>Наши услуги</p>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+                <div class="icon-box">
+                    <div class="icon"> <img class="img-thumbnail loaded" style=" border-style: none; width:90px;" src="/images/noun-tailor-1959587.png" alt="service-1" /></i></div>
+                    <h4><a href="">Индивидуальная консультация по дизайну и стилю</a></h4>
+                    <p>Предоставим экспертный совет и рекомендаций по выбору стиля, тканей, цветов и дизайна для создания уникальной одежды</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="200">
+                <div class="icon-box">
+                    <div class="icon"><img class="img-thumbnail loaded" style=" border-style: none; width:90px;" src="/images/noun-textile-fabric-.png" alt="service-3" /></i></div>                  
+                    <h4><a href="">Использование высококачественных материалов</a></h4>
+                    <p> Предложим широкий выбор качественных тканей, от премиум-класса до доступных вариантов, для создания одежды высокого качества и комфорта</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0" data-aos="zoom-in" data-aos-delay="300">
+                <div class="icon-box">
+                            <div class="icon"> <img class="img-thumbnail loaded" style=" border-style: none; width:90px;" src="/images/noun-t-shirt-2388872.png" alt="service-5" /></div>
+                    <h4><a href="">Отделка и декорирование</a></h4>
+                    <p>Добавим украшения, вышивки, аппликации или другие декоративные элементы для придания уникальности и стиля изделию</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4" data-aos="zoom-in" data-aos-delay="100">
+                <div class="icon-box">
+                    <div class="icon"><img class="img-thumbnail loaded" style=" border-style: none; width:90px;" src="/images/noun-tailoring-42820.png" alt="service-4" /></i></div>
+                    <h4><a href="">Индивидуальная примерка и внесение коррекций</a></h4>
+                    <p>Обеспечим необходимые примерки,чтобы была возможность внести коррекций для достижения наилучшего результата</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4" data-aos="zoom-in" data-aos-delay="200">
+                <div class="icon-box">
+                     <div class="icon"> <img class="img-thumbnail loaded" style=" border-style: none; width:90px;" src="/images/noun-blueprint-36945.png" alt="service-2" /></i></div>
+                   \
+                    <h4><a href="">Измерение и подгонка</a></h4>
+                    <p>Снимим точные мерки для создания идеально подогнанной одежды</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4" data-aos="zoom-in" data-aos-delay="300">
+                <div class="icon-box">
+                    <div class="icon"><img class="img-thumbnail loaded" style=" border-style: none; width:90px;" src="/images/noun-marketing-35029.png" alt="service-6" /></div>
+                    <h4><a href="">Сопровождение после покупки</a></h4>
+                    <p> Предоставим возможности дальнейшего обслуживания и модификации одежды, а также рекомендации по уходу за ней</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+ <section id="cta" class="cta">
+      <div class="container" data-aos="zoom-in">
+         <div class="text-center">
+            <h3>Позвоните нам</h3>
+            <p> Наш технолог свяжется с Вами для консультации</p>
+                <a class="cta-btn" href="#contact">Контакты</a>
+         </div>
+      </div>
+ </section>
+ <section id="works" class="profile d-flex align-items-center justify-content-center">
+    <div class="container" data-aos="fade-up">
+        <div class="section-title">
+            <h2>Работы</h2>
+            <p>Наши работы</p>
+        </div>
+        <div class="row justify-content-center" style="height:600px;">
+            <div class="col-sm-6 col-md-3">
+                <div class="profile-card">
+                    <div class="profile-img">
+                        <img class="img-thumbnail " src="/images/works/1501110800_1_1_1.jpg" alt="work1" />
+                    </div>
+                    <div class="profile-content">
+                        <h2 class="title">Пошив женской одежды
+                            @* <span>Designer & Developer</span>*@
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                        <div class="profile-card" >
+                    <div class="profile-img">
+                                <img class="img-thumbnail" style="height:100%" src="/images/works/1538303800_1_1_1_w4fh-25.jpg" alt="work3" />
+                    </div>
+                    <div class="profile-content">
+                        <h2 class="title">
+                            Пошив мужской одежды
+                            @* <span>Designer & Developer</span>*@
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <div class="profile-card"  >
+                    <div class="profile-img">
+                        <img class="img-thumbnail" style="height:100%"  src="/images/works/4152504800_1_1_1.jpg" alt="work7" />
+                    </div>
+                    <div class="profile-content">
+                        <h2 class="title">
+                            Пошив детской одежды
+                            @* <span>Designer & Developer</span>*@
+                        </h2>
+                    </div>
+                </div>
+            </div>
+              
+             @*   <div id="myCarousel" class=" col-xl-4 col-lg-4 carousel carousel-dark slide carousel-fade" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1" ></button>
+                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
+                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="5" aria-label="Slide 6"></button>
+                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="6" aria-label="Slide 7"></button>
+                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="7" aria-label="Slide 8"></button>
+                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="8" aria-label="Slide 9"></button>
+
+            </div>*@
+           @* <div class="carousel-inner">
+                <div class="carousel-item active">                   
+                    <img class="img-thumbnail d-block w-400" src="/images/works/1501110800_1_1_1.jpg" alt="work1" />
+                </div>
+                <div class="carousel-item">
+                    <img class="img-thumbnail d-block w-400" src="/images/works/2475004330_1_1_1.jpg" alt="work2" />
+                </div>
+                 <div class="carousel-item">
+                    <img class="img-thumbnail d-block w-400" src="/images/works/1538303800_1_1_1_w4fh-25.jpg" alt="work3" />
+                </div>
+                 <div class="carousel-item">
+                    <img class="img-thumbnail d-block w-400" src="/images/works/1605117529_6_1_1.jpg" alt="work4" />
+                </div>
+                <div class="carousel-item ">
+                    <img class="img-thumbnail d-block w-400" src="/images/works/5862022427_1_1_1.jpg" alt="work5" />
+                </div>
+                <div class="carousel-item ">
+                    <img class="img-thumbnail d-block w-400" src="/images/works/4108166401_1_1_1.jpg" alt="work6" />
+                </div>
+                <div class="carousel-item ">
+                    <img class="img-thumbnail d-block w-400" src="/images/works/4152504800_1_1_1.jpg" alt="work7" />
+                </div>
+                <div class="carousel-item ">
+                    <img class="img-thumbnail d-block w-400" src="/images/works/4306025104_1_1_1.jpg" alt="work8" />
+                </div>
+                <div class="carousel-item ">
+                    <img class="img-thumbnail d-block w-400" src="/images/works/4437061670_6_1_1.jpg" alt="work9" />
+                </div>
+            </div>*@
+            @*    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev" >
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Предыдущий</span>
+            </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next" >
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Следующий</span>
+            </button>    *@  
+        </div>           
+     </div>
+ </section>
+
+@*<div class="container mt-2">
+    <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        @{
+            if (Model.allWorks.Count > 0)
+            {
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img class="img-thumbnail d-block w-100" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.allWorks[0].Image))" alt="work" />
+                        </div>
+                    </div>
+
+                    @for (int i = 1; i < Model.allWorks.Count(); i++)
+                {
+                    if (Model.allWorks[i] != null)
+                    {
+                            <div class="carousel-item">
+                                <img class="img-thumbnail d-block w-100" src="data:image/jpeg;base64,@(Convert.ToBase64String(@Model.allWorks[i].Image))" alt="work" />
+                            </div>
+                    }
+                }
+            }
+        }
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Предыдущий</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Следующий</span>
+        </button>
+    </div>
+</div>*@
+
+
+<section id="counts" class="counts d-flex align-items-center justify-content-center">
+    <div class="container" data-aos="fade-up">
+        <div class="row justify-content-center content" data-aos="fade-up">
+            <div class="col-xl-6 col-lg-8">
+                <h3 class="text-center">Наши преимущества</h3>                              
+                <div class="count-box">
+                    <i class="fa fa-check-circle" aria-hidden="true"></i>
+                    <span  class="purecounter">Высокое качество пошива</span>
+                    <p><strong></strong> Обеспечивается высоким профессионализмом наших швей, технологов и конструкторов, а также современным оборудованием</p>
+                </div>                                     
+                <div class="count-box">
+                    <i class="fa fa-check-circle" aria-hidden="true"></i>
+                    <span  class="purecounter">Оперативное производство</span>
+                    <p>Согласуем с Вами сроки производства и распределим работы между нашей обширной командой</p>
+                </div>                  
+                <div class="count-box">
+                    <i class="fa fa-check-circle" aria-hidden="true"></i>
+                    <span class="purecounter">Индивидуальный подход</span>
+                    <p>Выясним все необходимые подробности и детали и воплотим их для Вас</p>
+                </div>                   
+             </div>           
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="contact d-flex align-items-center justify-content-center">
+    <div class="container" data-aos="fade-up">
+        <div class="section-title">
+            <h2>Контакты</h2>
+            <p>Наши контакты</p>
+        </div>
+        <div class="row justify-content-center content mt-5" data-aos="fade-up">
+            <div class="col-xl-3 col-lg-3">
+                <div class="info">
+                    <div class="address">
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                        <h4>Адрес:</h4>
+                        <p>Москва, улица Большая Якиманка, 15, 1 этаж</p>
+                    </div>
+                    <div class="email">
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                        <h4>Электронная почта:</h4>
+                        <p>rom@myroma.ru</p>
+                    </div>
+                    <div class="phone">
+                        <i class="fa fa-phone" aria-hidden="true"></i>
+                        <h4>Телефон:</h4>
+						<p> +7 985 547 24 85</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+ </main>
+@section scripts{
+    <script>
+            var texts = ["Индивидуальная консультация", "Использование высококачественных материалов", "Отделка и декорирование", "Индивидуальная примерка и внесение коррекций", "Снятие мерок", "Сопровождение после покупки"];
+            var index = 0; // Текущий индекс текста
+
+            // Функция для обновления текста
+            function updateText() {
+                var textElement = document.getElementById("services");
+                textElement.innerHTML = texts[index];
+
+                // Увеличение индекса или сброс на 0, если достигнут конец массива
+                index = (index + 1) % texts.length;
+            }
+
+            // Вызов функции обновления текста через определенный интервал времени
+            setInterval(updateText, 2000); // Обновление каждые 2 секунды
+
+            (function () {
+                "use strict";
+
+                /**
+                 * Easy selector helper function
+                 */
+                const select = (el, all = false) => {
+                    el = el.trim()
+                    if (all) {
+                        return [...document.querySelectorAll(el)]
+                    } else {
+                        return document.querySelector(el)
+                    }
+                }
+
+                /**
+                 * Easy event listener function
+                 */
+                const on = (type, el, listener, all = false) => {
+                    let selectEl = select(el, all)
+                    if (selectEl) {
+                        if (all) {
+                            selectEl.forEach(e => e.addEventListener(type, listener))
+                        } else {
+                            selectEl.addEventListener(type, listener)
+                        }
+                    }
+                }
+
+                /**
+                 * Easy on scroll event listener
+                 */
+                const onscroll = (el, listener) => {
+                    el.addEventListener('scroll', listener)
+                }
+
+                /**
+                 * Navbar links active state on scroll
+                 */
+                let navbarlinks = select('#navbar .scrollto', true)
+                const navbarlinksActive = () => {
+                    let position = window.scrollY + 200
+                    navbarlinks.forEach(navbarlink => {
+                        if (!navbarlink.hash) return
+                        let section = select(navbarlink.hash)
+                        if (!section) return
+                        if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
+                            navbarlink.classList.add('active')
+                        } else {
+                            navbarlink.classList.remove('active')
+                        }
+                    })
+                }
+                window.addEventListener('load', navbarlinksActive)
+                onscroll(document, navbarlinksActive)
+
+                /**
+                 * Scrolls to an element with header offset
+                 */
+                const scrollto = (el) => {
+                    let header = select('#header')
+                    let offset = header.offsetHeight
+
+                    let elementPos = select(el).offsetTop
+                    window.scrollTo({
+                        top: elementPos - offset,
+                        behavior: 'smooth'
+                    })
+                }
+
+                /**
+                 * Toggle .header-scrolled class to #header when page is scrolled
+                 */
+                let selectHeader = select('#header')
+                if (selectHeader) {
+                    const headerScrolled = () => {
+                        if (window.scrollY > 100) {
+                            selectHeader.classList.add('header-scrolled')
+                        } else {
+                            selectHeader.classList.remove('header-scrolled')
+                        }
+                    }
+                    window.addEventListener('load', headerScrolled)
+                    onscroll(document, headerScrolled)
+                }
+
+                /**
+                 * Back to top button
+                 */
+                let backtotop = select('.back-to-top')
+                if (backtotop) {
+                    const toggleBacktotop = () => {
+                        if (window.scrollY > 100) {
+                            backtotop.classList.add('active')
+                        } else {
+                            backtotop.classList.remove('active')
+                        }
+                    }
+                    window.addEventListener('load', toggleBacktotop)
+                    onscroll(document, toggleBacktotop)
+                }
+
+                /**
+                 * Mobile nav toggle
+                 */
+                on('click', '.mobile-nav-toggle', function (e) {
+                    select('#navbar').classList.toggle('navbar-mobile')
+                    this.classList.toggle('bi-list')
+                    this.classList.toggle('bi-x')
+                })
+
+                /**
+                 * Mobile nav dropdowns activate
+                 */
+                on('click', '.navbar .dropdown > a', function (e) {
+                    if (select('#navbar').classList.contains('navbar-mobile')) {
+                        e.preventDefault()
+                        this.nextElementSibling.classList.toggle('dropdown-active')
+                    }
+                }, true)
+
+                /**
+                 * Scrool with ofset on links with a class name .scrollto
+                 */
+                on('click', '.scrollto', function (e) {
+                    if (select(this.hash)) {
+                        e.preventDefault()
+
+                        let navbar = select('#navbar')
+                        if (navbar.classList.contains('navbar-mobile')) {
+                            navbar.classList.remove('navbar-mobile')
+                            let navbarToggle = select('.mobile-nav-toggle')
+                            navbarToggle.classList.toggle('bi-list')
+                            navbarToggle.classList.toggle('bi-x')
+                        }
+                        scrollto(this.hash)
+                    }
+                }, true)
+
+                /**
+                 * Scroll with ofset on page load with hash links in the url
+                 */
+                window.addEventListener('load', () => {
+                    if (window.location.hash) {
+                        if (select(window.location.hash)) {
+                            scrollto(window.location.hash)
+                        }
+                    }
+                });
+
+                /**
+                 * Preloader
+                 */
+                let preloader = select('#preloader');
+                if (preloader) {
+                    window.addEventListener('load', () => {
+                        preloader.remove()
+                    });
+                }
+
+                /**
+                 * Clients Slider
+                 */
+                new Swiper('.clients-slider', {
+                    speed: 400,
+                    loop: true,
+                    autoplay: {
+                        delay: 5000,
+                        disableOnInteraction: false
+                    },
+                    slidesPerView: 'auto',
+                    pagination: {
+                        el: '.swiper-pagination',
+                        type: 'bullets',
+                        clickable: true
+                    },
+                    breakpoints: {
+                        320: {
+                            slidesPerView: 2,
+                            spaceBetween: 40
+                        },
+                        480: {
+                            slidesPerView: 3,
+                            spaceBetween: 60
+                        },
+                        640: {
+                            slidesPerView: 4,
+                            spaceBetween: 80
+                        },
+                        992: {
+                            slidesPerView: 6,
+                            spaceBetween: 120
+                        }
+                    }
+                });
+
+                /**
+                 * Porfolio isotope and filter
+                 */
+                window.addEventListener('load', () => {
+                    let portfolioContainer = select('.portfolio-container');
+                    if (portfolioContainer) {
+                        let portfolioIsotope = new Isotope(portfolioContainer, {
+                            itemSelector: '.portfolio-item'
+                        });
+
+                        let portfolioFilters = select('#portfolio-flters li', true);
+
+                        on('click', '#portfolio-flters li', function (e) {
+                            e.preventDefault();
+                            portfolioFilters.forEach(function (el) {
+                                el.classList.remove('filter-active');
+                            });
+                            this.classList.add('filter-active');
+
+                            portfolioIsotope.arrange({
+                                filter: this.getAttribute('data-filter')
+                            });
+                            portfolioIsotope.on('arrangeComplete', function () {
+                                AOS.refresh()
+                            });
+                        }, true);
+                    }
+
+                });
+
+                /**
+                 * Initiate portfolio lightbox
+                 */
+                const portfolioLightbox = GLightbox({
+                    selector: '.portfolio-lightbox'
+                });
+
+                /**
+                 * Portfolio details slider
+                 */
+                new Swiper('.portfolio-details-slider', {
+                    speed: 400,
+                    loop: true,
+                    autoplay: {
+                        delay: 5000,
+                        disableOnInteraction: false
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        type: 'bullets',
+                        clickable: true
+                    }
+                });
+
+                /**
+                 * Testimonials slider
+                 */
+                new Swiper('.testimonials-slider', {
+                    speed: 600,
+                    loop: true,
+                    autoplay: {
+                        delay: 5000,
+                        disableOnInteraction: false
+                    },
+                    slidesPerView: 'auto',
+                    pagination: {
+                        el: '.swiper-pagination',
+                        type: 'bullets',
+                        clickable: true
+                    }
+                });
+
+                /**
+                 * Animation on scroll
+                 */
+                window.addEventListener('load', () => {
+                    AOS.init({
+                        duration: 1000,
+                        easing: "ease-in-out",
+                        once: true,
+                        mirror: false
+                    });
+                });
+
+                /**
+                 * Initiate Pure Counter
+                 */
+                new PureCounter();
+
+            })()</script>
+}
+    </body>

@@ -1,0 +1,21 @@
+﻿@model SignUpDetail
+<div class="row mt-5 mb-2">
+    @{
+        if (Model != null && !Model.isDelete)
+        {
+            <h2>Ваша текущая запись</h2>
+            <div class="col-md-4">
+            <h2> @Model.SpecialistName </h2>
+            <p>@Model.Time</p>
+                <p> <a class="btn btn-warning" asp-controller="PersonalAccount" asp-action="CancelSignUp" asp-route-signId="@Model.Id" asp-route-idSp="@Model.SpecialistId" asp-route-time="@Model.Time.ToString("MM.dd.yyyy HH:mm")">Отменить</a></p>
+            <p> <a class="btn btn-primary" asp-controller="PersonalAccount" asp-action="Index">Вернуться</a></p>
+        </div>
+        }
+        else{
+            <h2>Записей нет</h2>
+        }
+     }
+
+</div>
+
+

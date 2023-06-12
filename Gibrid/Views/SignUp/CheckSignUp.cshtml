@@ -1,0 +1,22 @@
+﻿@model SignUp
+
+<div class="row">
+	<h3>Запись</h3>
+	<form asp-route-user="@User.Identity.Name" asp-action="CheckSignUp" asp-route-order="@Model" method="post" class="form-horizontal">
+		<div class="form-group">
+			<label asp-for=Name></label>
+			<div class="col-md-5">
+				<input asp-for=Name class="form-control" />
+				<span asp-validation-for="Name" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label asp-for=phone></label>
+			<div class="col-md-5">
+				<input asp-for=phone class="form-control" />
+				<span asp-validation-for="phone" class="text-danger"></span>
+			</div>
+		</div>
+		<input class="btn btn-success" type="submit" value="Записаться" />
+	</form>
+</div>

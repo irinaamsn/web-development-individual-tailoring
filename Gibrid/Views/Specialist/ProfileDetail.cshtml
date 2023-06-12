@@ -1,0 +1,439 @@
+﻿@model ProfileDetailViewModel
+<body onload="stars();" class="body">
+<div class="container" style="padding-top:80px;">
+    <div class="row">
+        <div class="col-lg-3 col-md-4">
+            <div class="text-center card-box">
+                <div class="member-card">
+                    <div class="d-flex flex-column align-items-center text-center">
+                        <img class="rounded-circle" src="data:image/jpeg;base64,@(Convert.ToBase64String(@Model.Specialist.Avatar))" alt="Avatar"  width="150" />
+                    </div>
+                    <div type="context" class="ratings social-info" id="rat" data-val="@Model.Specialist.Rating">
+                        <i class="fa fa-star" id="star1"></i>
+                        <i class="fa fa-star" id="star2"></i>
+                        <i class="fa fa-star" id="star3"></i>
+                        <i class="fa fa-star" id="star4"></i>
+                        <i class="fa fa-star" id="star5"></i>
+                    </div>
+                    <div class="">
+                        <h4 class="m-b-5">@Model.Specialist.Name @Model.Specialist.FullName</h4>
+                        <p class="text-muted">@Model.Specialist.CategoryName</p>
+                    </div>                
+
+                    <div class="text-left m-t-40">
+                        <p class="text-muted font-13"><strong>Mobile : </strong><span class="m-l-15"> @Model.Specialist.Phone</span></p>
+                         @if (Model.Specialist.isHasTime)
+                        {
+
+                            <a class="btn btn-warning btn-block " id="createbtn" asp-controller="PersonalAccount" asp-action="CreateSignUp" asp-route-idSp="@Model.Specialist.Id" style="border-radius: 15px !important;"> Записаться</a>
+                        }
+                        else 
+                        {
+                            <button class="btn btn-warning btn-block " id="createbtn" disabled style="border-radius: 15px !important;"> Записаться</button>
+                        }
+                        @*<p class="text-muted font-13"><strong>Email :</strong> <span class="m-l-15">Email</span></p>*@
+                    </div>
+                </div>
+            </div> <!-- end card-box -->
+
+            <div class="card-box">
+                <h4 class="m-t-0 m-b-20 header-title">Оценки наших клиентов</h4>
+                <div class="p-b-10">
+                    <p>Отлично</p>
+                    <div class="progress progress-sm">
+                        @{
+                            var count = Model.allReviews.Where(x => x.Rating == 5).Count();
+                            var allc = Model.allReviews.Count();
+                            int w = Convert.ToInt32(Math.Round((double)((count*100/allc)), 1, MidpointRounding.AwayFromZero));
+                        }
+                            <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="@w" aria-valuemin="0" aria-valuemax="@Model.allReviews.Count()" style="width: @w%">
+                        </div>
+                    </div>
+                    <p>Хорошо</p>
+                    <div class="progress progress-sm">
+                            @{
+                                 var count2 = Model.allReviews.Where(x => x.Rating == 4).Count();
+                                 var allc2 = Model.allReviews.Count();
+                                 var w2 = Convert.ToInt32(Math.Round((double)((count2 * 100 / allc2)), 1, MidpointRounding.AwayFromZero));
+                            }
+                        <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="@w2" aria-valuemin="0" aria-valuemax="@Model.allReviews.Count()" style="width: @w2%">
+                        </div>
+                    </div>
+                    <p>Нормально</p>
+                    <div class="progress progress-sm m-b-0">
+                        @{
+                                var count3 = Model.allReviews.Where(x => x.Rating == 3).Count();
+                                var allc3 = Model.allReviews.Count();
+                                var w3 = Convert.ToInt32(Math.Round((double)((count3 * 100 / allc3)), 1, MidpointRounding.AwayFromZero));
+                         }
+                        <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="@w3" aria-valuemin="0" aria-valuemax="@Model.allReviews.Count()" style="width: @w3%">
+                        </div>
+                    </div>
+                     <p>Плохо</p>
+                    <div class="progress progress-sm m-b-0">
+                        @{
+                            var count4 = Model.allReviews.Where(x => x.Rating == 2).Count();
+                            var allc4 = Model.allReviews.Count();
+                            var w4 = Convert.ToInt32(Math.Round((double)((count4 * 100 / allc4)), 1, MidpointRounding.AwayFromZero));
+                         }
+                        <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="@w4" aria-valuemin="0" aria-valuemax="@Model.allReviews.Count()" style="width: @w4%">
+                        </div>
+                    </div>
+                    <p>Ужасно</p>
+                    <div class="progress progress-sm m-b-0">
+                            @{
+                                var count5 = Model.allReviews.Where(x => x.Rating == 1).Count();
+                                var allc5 = Model.allReviews.Count();
+                                var w5 = Convert.ToInt32(Math.Round((double)((count5 * 100 / allc5)), 1, MidpointRounding.AwayFromZero));
+                            }
+                        <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="@w5" aria-valuemin="0" aria-valuemax="@Model.allReviews.Count()" style="width: @w5%">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end col -->
+
+
+        <div class="col-md-8 col-lg-9">
+            <div class="">
+                <div class="">
+                    <ul class="nav nav-tabs navtab-custom" role="tablist">
+                       @* <li class="nav-item">
+                            <a lass="nav-link active" href="#home" data-bs-toggle="tab" >
+                                <span class="visible-xs"><i class="fa fa-user"></i></span>
+                                <span class="hidden-xs">Обо мне</span>
+                            </a>
+                        </li>*@
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#profile" data-bs-toggle="tab">
+                                <span class="visible-xs"><i class="fa fa-photo"></i></span>
+                                <span class="hidden-xs">Работы</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#settings" data-bs-toggle="tab" >
+                                <span class="visible-xs"><i class="fa fa-cog"></i></span>
+                                <span class="hidden-xs">Отзывы</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                      
+                        <div class="tab-pane container active" id="profile">
+                            <div class="row">
+                              
+                               
+                                @foreach(var work in Model.allWorks)
+                                {
+                                    <div class="col-sm-4">
+                                        <div class="gal-detail thumb">
+                                            <div class="image-popup" >
+                                                <img src="data:image/jpeg;base64,@(Convert.ToBase64String(work.Image))" class="thumb-img" alt="work" />
+                                            </div>
+                                           @* <h4 class="text-center">Gallary Image</h4>
+                                            <div class="ga-border"></div>
+                                            <p class="text-muted text-center"><small>Photography</small></p>*@
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                   
+                        <div class="tab-pane container testimonials" id="settings">
+                            <div class="container ">
+                                 <div id="filters" class="row filters" style="padding:30px;">
+                                      
+                                    <select class="menu dropdown-menu-light" id="list" onchange='findOption(this)' >
+                                        <option selected="selected" value="new" id="new" >Сначала новые</option>
+                                        <option value="old" id="old">Сначала старые</option>
+                                       
+                                    </select>
+                                   
+                                 </div>
+                                <div class="row testimonialAll" id="newDiv">
+                                
+                                    @{
+                                        var array = Model.allReviews.OrderByDescending(x => x.Id).ToArray();//TODO
+                                    }
+                                     @for (int i = 0; i < array.Count(); i++)
+                                    {                                   
+                                        <section class="col-md-12 testimonial" id="@array[i].Id">
+                                            <div class="row">
+                                                <div class="time col-md-9  ">
+
+                                                </div>
+                                                <div class="time col-md-3 d-flex justify-content-end">
+                                                    <h6>@array[i].DateReview</h6>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="avatar col-md-5 b-flex justify-content-center align-items-center">
+                                                    <a href="#">
+                                                        <img class="img-circle" src="https://bootdey.com/img/Content/user_3.jpg" alt="Avatar">
+                                                    </a>
+                                                    <div type="context" class="ratingUser social-info" data-val="@array[i].Rating">
+                                                        <i class="fa fa-star" id="@i+1"></i>
+                                                        <i class="fa fa-star" id="@i+2"></i>
+                                                        <i class="fa fa-star" id="@i+3"></i>
+                                                        <i class="fa fa-star" id="@i+4"></i>
+                                                        <i class="fa fa-star" id="@i+5"></i>
+                                                    </div>
+                                                </div> 
+                                                 <script type="text/javascript">
+                                                    var rat = @array[i].Rating;
+
+                                                    if (rat == 1) document.getElementById("@i+1").style.color = "gold";
+                                                    else if (rat == 2) {
+                                                        document.getElementById("@i+1").style.color = "gold";
+                                                        document.getElementById("@i+2").style.color = "gold";
+                                                    }
+                                                    else if (rat == 3) {
+                                                        document.getElementById("@i+1").style.color = "gold";
+                                                        document.getElementById("@i+2").style.color = "gold";
+                                                        document.getElementById("@i+3").style.color = "gold";
+                                                    }
+                                                    else if (rat == 4) {
+                                                    
+                                                        document.getElementById("@i+1").style.color = "gold";
+                                                        document.getElementById("@i+2").style.color = "gold";
+                                                        document.getElementById("@i+3").style.color = "gold";
+                                                        document.getElementById("@i+4").style.color = "gold";
+                                                    }
+                                                    else if (rat == 5) {
+                                                      
+                                                        document.getElementById("@i+1").style.color = "gold";
+                                                        document.getElementById("@i+2").style.color = "gold";
+                                                        document.getElementById("@i+3").style.color = "gold";
+                                                        document.getElementById("@i+4").style.color = "gold";
+                                                        document.getElementById("@i+5").style.color = "gold";
+
+                                                    }
+                                                 </script>
+                                                <div class="testimonial-main col-md-7">
+                                                    <h4 class="media-heading"><a href="#m">@array[i].UserName</a></h4>
+                                                    <p class="testimony-body">@array[i].Text</p>
+                                                </div>
+                                            </div>
+
+                                        </section>  
+                                    }
+                                    <div class="btn-center">
+                                        <button class="show-more">Показать еще</button>
+                                    </div>
+
+                                    <div class="height"></div>
+                                 </div>
+                                <div class="row testimonialAll2" id="oldDiv" >
+
+                                    @{
+                                        var array2 = Model.allReviews.OrderBy(x => x.Id).ToArray();
+                                    }
+                                    @for (int i = 0; i < array2.Count(); i++)
+                                    {
+                                        <section class="col-md-12 testimonial2" id="@array2[i].Id">
+                                            <div class="row">
+                                                <div class="time col-md-9  ">
+                                                </div>
+                                                <div class="time col-md-3 d-flex justify-content-end">
+                                                    <h6>@array2[i].DateReview</h6>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="avatar col-md-5 b-flex justify-content-center align-items-center">
+                                                    <a href="#">
+                                                        <img class="img-circle" src="https://bootdey.com/img/Content/user_3.jpg" alt="Avatar">
+                                                    </a>
+                                                    <div type="context" class="ratingUser social-info" data-val="@array2[i].Rating">
+                                                        <i class="fa fa-star" id="@i+11"></i>
+                                                        <i class="fa fa-star" id="@i+22"></i>
+                                                        <i class="fa fa-star" id="@i+33"></i>
+                                                        <i class="fa fa-star" id="@i+44"></i>
+                                                        <i class="fa fa-star" id="@i+55"></i>
+                                                    </div>
+                                                </div>
+                                                <script type="text/javascript">
+                                                    var rat = @array2[i].Rating;
+
+                                                    if (rat == 1) document.getElementById("@i+11").style.color = "gold";
+                                                    else if (rat == 2) {
+                                                        document.getElementById("@i+11").style.color = "gold";
+                                                        document.getElementById("@i+22").style.color = "gold";
+                                                    }
+                                                    else if (rat == 3) {
+                                                        document.getElementById("@i+11").style.color = "gold";
+                                                        document.getElementById("@i+22").style.color = "gold";
+                                                        document.getElementById("@i+33").style.color = "gold";
+                                                    }
+                                                    else if (rat == 4) {
+
+                                                            document.getElementById("@i+11").style.color = "gold";
+                                                            document.getElementById("@i+22").style.color = "gold";
+                                                            document.getElementById("@i+33").style.color = "gold";
+                                                            document.getElementById("@i+44").style.color = "gold";
+                                                    }
+                                                    else if (rat == 5) {
+
+                                                        document.getElementById("@i+11").style.color = "gold";
+                                                        document.getElementById("@i+22").style.color = "gold";
+                                                        document.getElementById("@i+33").style.color = "gold";
+                                                        document.getElementById("@i+44").style.color = "gold";
+                                                        document.getElementById("@i+55").style.color = "gold";
+
+                                                    }
+                                                </script>
+                                                <div class="testimonial-main col-md-7">
+                                                    <h4 class="media-heading"><a href="#m">@array2[i].UserName</a></h4>
+                                                    <p class="testimony-body">@array2[i].Text</p>
+                                                </div>
+                                            </div>
+
+                                        </section>
+                                    }
+                                     <div class="btn-center">
+                                    <button class="show-more2">Показать еще</button>
+                                    </div>
+                               
+                                    <div class="height"></div>   
+                                </div>
+                               
+                            </div>
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end col -->
+    </div>
+    @section scripts{
+        <script type="text/javascript">
+            $("#oldDiv").hide();
+            const showMore = document.querySelector('.show-more');
+            const productsLength = document.querySelectorAll('.testimonial').length;//todo
+            let items = 3;
+            const showMore2 = document.querySelector('.show-more2');
+            const productsLength2 = document.querySelectorAll('.testimonial2').length;
+            let items2 = 3;
+           // document.getElementById("new").style.color = "rgba(51,51,51)";
+           // document.getElementById("old").style.color = "rgba(51,51,51)";
+             document.getElementById("new").style.padding="8px";
+             document.getElementById("old").style.padding = "8px";
+              document.getElementById("new").style.fontSize="14px";
+             document.getElementById("old").style.fontSize = "14px";
+           // document.getElementById("new").style.backgroundColor = "rgba(248,248,248)";
+           // document.getElementById("old").style.backgroundColor = "rgba(248,248,248)";
+            function findOption(select) {
+
+                if ($("#new").is(':checked')) {
+                    $("#newDiv").show();
+                    $("#oldDiv").hide();
+                }
+                if ($("#old").is(':checked')) {
+                    $("#newDiv").hide();
+                    $("#oldDiv").show();
+                }
+                // Действия над option
+            }
+
+
+            function mySort() {
+                alert('sort');
+                var input, input2, filter, filter2, table, tr, td, td2, selectedId, td3, i, j, txtValue, txtValue2, txtValue3, min, max, inputMin, inputMax;
+
+                arrRev = document.getElementById("allReviews");
+                tr = arrRev.getElementsByTagName("section");
+
+
+                for (let j = 0; j < tr.length; j++) {
+                    for (let i = 0; i < tr.length - 1 - j; i++) {
+                        td = tr[i].getAttribute("id");
+                        td2 = tr[i + 1].getAttribute("id");
+                        
+                        if (td && td2) {
+
+
+                            if (td < td2) {
+                                var left = document.getElementById(td);
+                                var right = document.getElementById(td2);
+
+                                document.getElementById(td2).append(right);
+                                document.getElementById(td).append(left);
+
+                                //var temp = tr[i].innerHTML;
+                                //tr[i].innerHTML = tr[i + 1].innerHTML;
+                                //tr[i + 1].innerHTML = temp;
+                            }
+
+                        }
+                    }
+                }
+            };
+            function filterFunction() {
+                var input, filter, ul, li, a, i;
+                input = document.getElementById("myInput");
+                filter = input.value.toUpperCase();
+                div = document.getElementById("myDropdown");
+                a = div.getElementsByTagName("a");
+                for (i = 0; i < a.length; i++) {
+                    txtValue = a[i].textContent || a[i].innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        a[i].style.display = "";
+                    } else {
+                        a[i].style.display = "none";
+                    }
+                }
+            };
+
+            showMore.addEventListener('click', () => {
+                items += 1;
+                const array = Array.from(document.querySelector('.testimonialAll').children);
+                const visItems = array.slice(0, items);
+
+                visItems.forEach(el => el.classList.add('is-visible'));
+
+                if (visItems.length === productsLength) {
+                    showMore.style.display = 'none';
+                }
+            });
+            showMore2.addEventListener('click', () => {
+                items2 += 1;
+                const array2 = Array.from(document.querySelector('.testimonialAll2').children);
+                const visItems2 = array2.slice(0, items2);
+
+                visItems2.forEach(el2 => el2.classList.add('is-visible'));
+
+                if (visItems2.length === productsLength2) {
+                    showMore2.style.display = 'none';
+                }
+            });
+            
+                const sim = parseInt(document.querySelector('.ratings').getAttribute('data-val'));
+                if (sim == 1) $('#star1').css('color', '#388E3C');
+                else if (sim == 2) {
+                    $('#star1').css('color', 'gold');
+                    $('#star2').css('color', 'gold');
+                }
+                else if (sim == 3) {
+                    $('#star1').css('color', 'gold');
+                    $('#star2').css('color', 'gold');
+                    $('#star3').css('color', 'gold');
+                }
+                else if (sim == 4) {
+                    $('#star1').css('color', 'gold');
+                    $('#star2').css('color', 'gold');
+                    $('#star3').css('color', 'gold');
+                    $('#star4').css('color', 'gold');
+                }
+                else if (sim == 5) {
+                    $('#star1').css('color', 'gold');
+                    $('#star2').css('color', 'gold');
+                    $('#star3').css('color', 'gold');
+                    $('#star4').css('color', 'gold');
+                    $('#star5').css('color', 'gold');
+                }
+           
+           
+        </script>
+    }
+</body>

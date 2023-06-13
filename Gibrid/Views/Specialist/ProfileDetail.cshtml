@@ -41,10 +41,10 @@
                 <div class="p-b-10">
                     <p>Отлично</p>
                     <div class="progress progress-sm">
-                        @{
-                            var count = Model.allReviews.Where(x => x.Rating == 5).Count();
-                            var allc = Model.allReviews.Count();
-                            int w = Convert.ToInt32(Math.Round((double)((count*100/allc)), 1, MidpointRounding.AwayFromZero));
+                            @{
+                                var count = Model.allReviews.Where(x => x.Rating == 5).Count();  int w = 0;
+                                var allc = Model.allReviews.Count();
+                            @if (count>0)  w = Convert.ToInt32(Math.Round((double)((count*100/allc)), 1, MidpointRounding.AwayFromZero));
                         }
                             <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="@w" aria-valuemin="0" aria-valuemax="@Model.allReviews.Count()" style="width: @w%">
                         </div>
@@ -52,29 +52,29 @@
                     <p>Хорошо</p>
                     <div class="progress progress-sm">
                             @{
-                                 var count2 = Model.allReviews.Where(x => x.Rating == 4).Count();
-                                 var allc2 = Model.allReviews.Count();
-                                 var w2 = Convert.ToInt32(Math.Round((double)((count2 * 100 / allc2)), 1, MidpointRounding.AwayFromZero));
+                                var count2 = Model.allReviews.Where(x => x.Rating == 4).Count();int w2 = 0;
+                                var allc2 = Model.allReviews.Count();
+                                @if (count2 > 0) w2 = Convert.ToInt32(Math.Round((double)((count2 * 100 / allc2)), 1, MidpointRounding.AwayFromZero));
                             }
                         <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="@w2" aria-valuemin="0" aria-valuemax="@Model.allReviews.Count()" style="width: @w2%">
                         </div>
                     </div>
                     <p>Нормально</p>
                     <div class="progress progress-sm m-b-0">
-                        @{
-                                var count3 = Model.allReviews.Where(x => x.Rating == 3).Count();
+                            @{
+                                var count3 = Model.allReviews.Where(x => x.Rating == 3).Count();int w3 = 0;
                                 var allc3 = Model.allReviews.Count();
-                                var w3 = Convert.ToInt32(Math.Round((double)((count3 * 100 / allc3)), 1, MidpointRounding.AwayFromZero));
+                                @if (count3 > 0) w3 = Convert.ToInt32(Math.Round((double)((count3 * 100 / allc3)), 1, MidpointRounding.AwayFromZero));
                          }
                         <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="@w3" aria-valuemin="0" aria-valuemax="@Model.allReviews.Count()" style="width: @w3%">
                         </div>
                     </div>
                      <p>Плохо</p>
                     <div class="progress progress-sm m-b-0">
-                        @{
-                            var count4 = Model.allReviews.Where(x => x.Rating == 2).Count();
-                            var allc4 = Model.allReviews.Count();
-                            var w4 = Convert.ToInt32(Math.Round((double)((count4 * 100 / allc4)), 1, MidpointRounding.AwayFromZero));
+                            @{
+                                var count4 = Model.allReviews.Where(x => x.Rating == 2).Count();int w4 = 0;
+                                var allc4 = Model.allReviews.Count();
+                                @if (count4 > 0) w4 = Convert.ToInt32(Math.Round((double)((count4 * 100 / allc4)), 1, MidpointRounding.AwayFromZero));
                          }
                         <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="@w4" aria-valuemin="0" aria-valuemax="@Model.allReviews.Count()" style="width: @w4%">
                         </div>
@@ -82,9 +82,9 @@
                     <p>Ужасно</p>
                     <div class="progress progress-sm m-b-0">
                             @{
-                                var count5 = Model.allReviews.Where(x => x.Rating == 1).Count();
+                                var count5 = Model.allReviews.Where(x => x.Rating == 1).Count();int w5 = 0;
                                 var allc5 = Model.allReviews.Count();
-                                var w5 = Convert.ToInt32(Math.Round((double)((count5 * 100 / allc5)), 1, MidpointRounding.AwayFromZero));
+                                @if (count5 > 0) w5 = Convert.ToInt32(Math.Round((double)((count5 * 100 / allc5)), 1, MidpointRounding.AwayFromZero));
                             }
                         <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="@w5" aria-valuemin="0" aria-valuemax="@Model.allReviews.Count()" style="width: @w5%">
                         </div>

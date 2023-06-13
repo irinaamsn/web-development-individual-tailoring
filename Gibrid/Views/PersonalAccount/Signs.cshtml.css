@@ -506,3 +506,14 @@
     text-align: center;
    
 }
+.cancelSign {
+    background-color: #FFDAB9;
+}
+.servicedSign {
+    background-color: #FFFAF0;
+}
+.headerh {
+    color: #000000;
+    font-family:'Times New Roman', Times, serif;
+    font-weight:bold;
+}

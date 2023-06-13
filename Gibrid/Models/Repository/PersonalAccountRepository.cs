@@ -19,7 +19,9 @@ namespace Gibrid.Models.Repository
             //var timeDetId = timeRepos.getAllTimeDetails.SingleOrDefault(x => x.Time == signdet.Time && x.SpecialistDetailsId == signdet.SpecialistId).Id;
             //timeRepos.DeleteTime(timeDetId);
             var data = dataRepos.AddToStorage(signdet);
-            data.isServiced = true; 
+            data.isServiced = true;
+            var time = timeRepos.getAllTimeDetails.SingleOrDefault(x => x.Id == signdet.TimeSignId);
+            time.isDelete = true;
             signdet.isDelete = true;
             signdet.isServiced = true;
             _content.Update(signdet);

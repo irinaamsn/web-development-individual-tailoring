@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Gibrid.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap-datetimepicker.min.css" rel="stylesheet" asp-append-version="true">
+    <link href="~/lib/bootstrap/dist/js/bootstrap-datetimepicker.css" rel="stylesheet" asp-append-version="true">
+    <link rel="stylesheet" type="text/css" href="/jquery.datetimepicker.css" />
 </head>
   <body>
     
@@ -31,14 +35,14 @@
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
       <div class="position-sticky pt-3">
         <ul class="nav flex-column">
-          <li class="nav-item">
+          @*<li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">
               <span data-feather="home"></span>
               Панель
             </a>
-          </li>
+          </li>*@
           <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="Master" asp-action="MySigns" asp-route-name="@User.Identity.Name" >Записи</a>
+                <a class="nav-link active" asp-area="" asp-controller="Master" asp-action="MySigns" asp-route-name="@User.Identity.Name" >Записи</a>
           </li>
           <li class="nav-item">
                 <a class="nav-link" asp-area="" asp-controller="Master" asp-action="ListWorks">Мои работы</a>
@@ -46,6 +50,9 @@
           <li class="nav-item">
                 <a class="nav-link" asp-area="" asp-controller="Master" asp-action="MyRates" asp-route-name="@User.Identity.Name">Посмотреть отзывы</a>
           </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-area="" asp-controller="Master" asp-action="AddTime" asp-route-name="@User.Identity.Name">Добавить время</a>
+        </li>
         </ul>
 
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
@@ -73,12 +80,6 @@
               Социальная активность
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-              Распродажа на конец года
-            </a>
-          </li>
         </ul>
       </div>
     </nav>
@@ -89,9 +90,14 @@
   </div>
 </div>
 
-
+    <script src="/jquery.js"></script>
+    <script src="/build/jquery.datetimepicker.full.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/docs/5.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="”text/javascript”" src="”https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js”"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap-datetimepicker.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

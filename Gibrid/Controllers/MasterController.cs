@@ -17,7 +17,8 @@ namespace Gibrid.Controllers
         private readonly IPersonalAccount personRepos;
         private readonly IAllWorks workRepos;
         private readonly IReview review;
-        public MasterController(IAllSignUp sign, IAllSpecialist spRepos,  UserManager<User> _userManager, IPersonalAccount personalAccount, IAllWorks workRepos, ISpecialistCategory categoryRepos, IReview review)
+        private readonly IListTime timeRepos;
+        public MasterController(IAllSignUp sign, IAllSpecialist spRepos,  UserManager<User> _userManager, IPersonalAccount personalAccount, IAllWorks workRepos, ISpecialistCategory categoryRepos, IReview review, IListTime timeRepos)
         {
             SignUpRepos = sign;
             specialistRepos = spRepos;
@@ -26,6 +27,7 @@ namespace Gibrid.Controllers
             this.workRepos = workRepos;
             this.categoryRepos = categoryRepos;
             this.review = review;
+            this.timeRepos = timeRepos;
         }
         public IActionResult Index()
         {
@@ -48,12 +50,13 @@ namespace Gibrid.Controllers
             // var list = _userManager.GetUsersInRoleAsync("master").Result;
             var listSignVM = new List<SignViewModel>();
             var master = specialistRepos.Specialists.SingleOrDefault(x => x.userId == user.Id);//find master
+            var times = timeRepos.getAllTimeDetails.Where(x => x.SpecialistDetailsId == master.Id && !x.isDelete);
             var listsignUpDetails = SignUpRepos.AllSignUpDetails.Where(x => x.SpecialistId == master.Id);//find his signUps
             var listSignUp = SignUpRepos.AllSignUp;
             foreach (var signup in listsignUpDetails)
                 foreach (var sign in listSignUp)
                 {
-                    if (signup.SignUpId == sign.Id )//TODO
+                    if (signup.SignUpId == sign.Id)//TODO
                     {
                         var model = new SignViewModel
                         {
@@ -67,7 +70,12 @@ namespace Gibrid.Controllers
                         listSignVM.Add(model);
                     }
                 }
-            return View(listSignVM);
+            var calendar = new CalendarViewModel
+            {
+                signViewModels = listSignVM,
+                times = times.ToList()
+        };
+            return View(calendar);
         }
         public async Task<IActionResult> MyRates(string name)
         {
@@ -119,6 +127,7 @@ namespace Gibrid.Controllers
             return RedirectToAction("ListWorks");
 
         }
+
         //[HttpPost]
         public ActionResult DeleteWork(int id)
         {
@@ -131,13 +140,26 @@ namespace Gibrid.Controllers
             User userObj = _userManager.FindByNameAsync(user).Result;
             return  RedirectToAction("Index", "Master");
         }
-        
-        
-       //public ActionResult GetWork(int id, bool isJson)
-       // {
 
-       // }
-      
+
+        public IActionResult AddTime()//will some actions on view - click on button
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddTime(TimeViewModel model, string name)//
+        {
+            if (timeRepos.getAllTimeDetails.Any(x => x.TimeSpecialist == model.Time)) return RedirectToAction("CompleteNotTime");
+            var user = _userManager.FindByNameAsync(name).Result;
+            var id= specialistRepos.Specialists.SingleOrDefault(x => x.userId == user.Id).Id;
+            // if (ModelState.IsValid)
+            {
+                timeRepos.createTime(model, id);
+                return RedirectToAction("Index");
+            }
+            return View(model);
+        }
+
         public IActionResult CompleteWork()
         {
            

@@ -11,7 +11,7 @@
                                 <div class="met-profile-main-pic">
                                    @* <img src="assets/images/users/user-4.jpg" alt="" height="110" class="rounded-circle">*@
                                     <span class="met-profile_main-pic-change">
-                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        <a asp-area="" asp-controller="PersonalAccount" asp-action="Settings" asp-route-name="@User.Identity.Name"><i class="fa fa-wrench" aria-hidden="true"></i></a>
                                     </span>                                   
                                 </div>
                                 <div class="met-profile_user-detail">
@@ -63,35 +63,58 @@
                                                         @foreach (var data in Model.OldSigns)
                                                         {
                                                             if(!data.isDelete)
-                                                        {<div class="col-xl-3 col-lg-3 col-md-3">
-                                                            <div class="card card-data profile-header">
-                                                                <div class="body">
-                                                                    <div class="row">
-                                                                   @* <div class="col-lg-4 col-md-4 col-12">
-                                                                                <div class="profile-image float-md-right"> <img src="data:image/jpeg;base64,@(Convert.ToBase64String(data.)"  alt=""> </div>
-                                                                      
-                                                                                    
-                                                                        </div>*@
-                                                                        <div class="col-lg-12 col-md-12 col-12 b-flex justify-content-center align-content-center">
-                                                                            <h4 class="m-t-0 m-b-0"><strong>@data.SpecialistName</strong> </h4>
-                                                                            <span class="job_post">@data.CategoryName</span>
-                                                                            <p class="fonts"><i class="fa fa-calendar" aria-hidden="true"></i> @data.Time</p>
-                                                                            <input id="dataId" value="@data.Id" hidden>
-                                                                            <div>
-                                                                                @if (data.isServiced @*&& !data.isRate*@)
-                                                                                {
-                                                                                    <a class="btn btn-primary btn-round"  asp-controller="PersonalAccount" asp-action="RateMaster" asp-route-id="@data.SpecialistId" asp-route-storId="@data.Id">Оставить отзыв</a>
-                                                                                }
+                                                            {
+                                                                <div class="col-xl-3 col-lg-3 col-md-3">
+                                                                    @if (!data.isServiced)
+                                                                    {
+                                                                        <div class="card card-data profile-header cancelSign">
+                                                                            <div class="body">
+                                                                                <div class="row">
+                                                                                    <div class="col-lg-12 col-md-12 col-12 b-flex justify-content-center align-content-center" style="padding-left:70px;">
+                                                                                        <h3 class="headerh">Запись отменена</h3>
+                                                                                        <div class=" b-flex justify-content-center align-content-center">
+                                                                                            <h4 class=""><strong>@data.SpecialistName</strong> </h4>
+                                                                                            <span class="job_post">@data.CategoryName</span>
+                                                                                            <p class="fonts"><i class="fa fa-calendar" aria-hidden="true"></i> @data.Time</p>
+                                                                                            <input id="dataId" value="@data.Id" hidden>
+                                                                                        </div>
+                                                                                        <div>
+                                                                    
+                                                                                            <a class="btn btn-primary btn-round btn-simple " id="deleteData" onclick="deleteData(@data.Id)" >Удалить</a>
+                                                                                        </div>
 
-                                                                                        <a class="btn btn-primary btn-round btn-simple " id="deleteData" onclick="deleteData(@data.Id)" @*asp-controller="DataStorage" asp-action="DeleteData" asp-route-id="@data.Id"*@>Удалить</a>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
-                                                                            
                                                                         </div>
-                                                                    </div>
+                                                                    }
+                                                                    else{
+                                                                        <div class="card card-data profile-header servicedSign">
+                                                                            <div class="body">
+                                                                                <div class="row">
+                                                                                    <div class="col-lg-12 col-md-12 col-12 b-flex justify-content-center align-content-center" style="padding-left:70px;">
+                                                                                        <h3 class="headerh">Обслужено</h3>
+                                                                                        <div class=" b-flex justify-content-center align-content-center">
+                                                                                            <h4 class=""><strong>@data.SpecialistName</strong> </h4>
+                                                                                            <span class="job_post">@data.CategoryName</span>
+                                                                                            <p class="fonts"><i class="fa fa-calendar" aria-hidden="true"></i> @data.Time</p>
+                                                                                            <input id="dataId" value="@data.Id" hidden>
+                                                                                        </div>
+                                                                                       
+                                                                                        <div>
+                       
+                                                                                                <a class="btn btn-primary btn-round" asp-controller="PersonalAccount" asp-action="RateMaster" asp-route-id="@data.SpecialistId" asp-route-storId="@data.Id">Оставить отзыв</a>
+
+                                                                                            <a class="btn btn-primary btn-round btn-simple " id="deleteData" onclick="deleteData(@data.Id)">Удалить</a>
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    }
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                        }
+                                                            }
                                                         }
                                                     </div>
                                                 </div>

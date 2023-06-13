@@ -1,4 +1,4 @@
-﻿@model List<SignViewModel>
+﻿@model CalendarViewModel
 
 @*<table class="table">
     <tr><td>Имя клиента</td><td>Телефон клиента</td><td>Время записи</td></tr>
@@ -40,9 +40,9 @@
                         DateTime end = begin.AddDays(6);
 
                         var list = new List<(DayOfWeek, TimeSpan, int)>();
-                        if (Model.Count > 0)
+                        if (Model.signViewModels.Count > 0)
                         {
-                            foreach(var t in Model.Where(x=>x.Time>=begin && x.Time<=end))
+                            foreach(var t in Model.signViewModels.Where(x=>x.Time>=begin && x.Time<=end))
                             {
                                 list.Add((t.Time.DayOfWeek, t.Time.TimeOfDay, t.SignId));
                             }
@@ -51,8 +51,8 @@
                       }
                 <table class="table bg-white">
 
-                    @if (list.Count > 0)
-                    {
+                   
+                    
                         <thead>
                             <tr>
                                 <th></th>
@@ -72,11 +72,12 @@
                                         foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
                                         {
                                             int tempDay = (int)day;
-                                            @if ((int)tempDay == 6) tempDay = -1;
-                                            var sign = list.Where(x => (int)x.Item1 == tempDay + 1 && x.Item2.Hours == 8).FirstOrDefault();
-                                            @if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && Model.SingleOrDefault(x=>x.SignId==sign.Item3).IsServiced)
+                                        @if ((int)tempDay == 6) tempDay = -1;
+                                        var sign = list.Where(x => (int)x.Item1 == tempDay + 1 && x.Item2.Hours == 8).FirstOrDefault();
+                                        var time = Model.times.SingleOrDefault(x => x.TimeSpecialist.Hour == 8 && (int)x.TimeSpecialist.DayOfWeek == tempDay + 1 );
+                                        @if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && Model.signViewModels.SingleOrDefault(x=>x.SignId==sign.Item3).IsServiced )
                                             {                       
-                                                var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);                       
+                                                var detail = Model.signViewModels.SingleOrDefault(x => x.SignId == sign.Item3);                       
                                                 <td class="serviced" id="@sign.Item3">
                                                     <h4>@detail.NameUser</h4>
                                                     <p>@detail.PhoneUser</p>
@@ -87,8 +88,8 @@
                                                     </div>
                                                 </td>
                                             }
-                                            else if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && !Model.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced){
-                                                 var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);                       
+                                            else if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && !Model.signViewModels.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced ){
+                                                 var detail = Model.signViewModels.SingleOrDefault(x => x.SignId == sign.Item3);                       
                                                 <td class="active" id="@sign.Item3">
                                                     <h4>@detail.NameUser</h4>
                                                     <p>@detail.PhoneUser</p>
@@ -99,10 +100,25 @@
                                                     </div>
                                                 </td>
                                             }
+                                            else if ( time!= null)
+                                            {
+
+                                            <td class="active" id="@time.Id">
+                                                <h4>Не занято</h4>
+                                                        
+                                                  <div class="hover">
+                                                  
+                                                    <p>@time.TimeSpecialist.TimeOfDay</p>
+                                                    <a class="btn btn-primary" onclick="buttoncl(@sign.Item3)" @*asp-controller="Master" asp-action="Serviced" asp-route-signId="@sign.Item3"*@>Записать</a>                                               
+                                                  </div>
+                                                </td>
+                                            }
                                             else
                                             {
                                                 <td></td>
                                             }
+                                            
+                                            
                                         }  
                                      }
                             </tr>   
@@ -114,9 +130,10 @@
                                             int tempDay = (int)day;
                                             @if ((int)tempDay == 6) tempDay = -1;
                                             var sign = list.Where(x => (int)x.Item1 == tempDay + 1 && x.Item2.Hours == 10).FirstOrDefault();
-                                            @if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && Model.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
+                                            var time = Model.times.SingleOrDefault(x => x.TimeSpecialist.Hour == 10 && (int)x.TimeSpecialist.DayOfWeek == tempDay + 1);
+                                            @if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && Model.signViewModels.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
                                             {
-                                                var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);
+                                                var detail = Model.signViewModels.SingleOrDefault(x => x.SignId == sign.Item3);
                                                 <td class="serviced" id="@sign.Item3">
                                                     <h4>@detail.NameUser</h4>
                                                     <p>@detail.PhoneUser</p>
@@ -127,9 +144,9 @@
                                                     </div>
                                                 </td>
                                             }
-                                            else if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && !Model.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
+                                            else if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && !Model.signViewModels.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
                                             {
-                                                var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);
+                                                var detail = Model.signViewModels.SingleOrDefault(x => x.SignId == sign.Item3);
                                                 <td class="active" id="@sign.Item3">
                                                     <h4>@detail.NameUser</h4>
                                                     <p>@detail.PhoneUser</p>
@@ -138,6 +155,18 @@
                                                         <p>@sign.Item2</p>
                                                         <a class="btn btn-primary" onclick="buttoncl(@sign.Item3)" @*asp-controller="Master" asp-action="Serviced" asp-route-signId="@sign.Item3"*@>Обслужено</a>
                                                     </div>
+                                                </td>
+                                            }
+                                            else if ( time!= null)
+                                            {
+                                            <td class="active" id="@time.Id">
+                                                <h4>Не занято</h4>
+                                                        
+                                                  <div class="hover">
+                                                    
+                                                    <p>@time.TimeSpecialist.TimeOfDay</p>
+                                                    <a class="btn btn-primary" onclick="buttoncl(@sign.Item3)" @*asp-controller="Master" asp-action="Serviced" asp-route-signId="@sign.Item3"*@>Записать</a>                                               
+                                                  </div>
                                                 </td>
                                             }
                                             else
@@ -155,9 +184,10 @@
                                         int tempDay = (int)day;
                                         @if ((int)tempDay == 6) tempDay = -1;
                                         var sign = list.Where(x => (int)x.Item1 == tempDay + 1 && x.Item2.Hours == 12).FirstOrDefault();
-                                            @if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && Model.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
+                                        var time = Model.times.SingleOrDefault(x => x.TimeSpecialist.Hour == 12 && (int)x.TimeSpecialist.DayOfWeek == tempDay + 1);
+                                            @if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && Model.signViewModels.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
                                             {
-                                                var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);
+                                                var detail = Model.signViewModels.SingleOrDefault(x => x.SignId == sign.Item3);
                                                 <td class="serviced" id="@sign.Item3">
                                                     <h4>@detail.NameUser</h4>
                                                     <p>@detail.PhoneUser</p>
@@ -168,9 +198,9 @@
                                                     </div>
                                                 </td>
                                             }
-                                            else if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && !Model.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
+                                            else if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && !Model.signViewModels.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
                                             {
-                                                var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);
+                                                var detail = Model.signViewModels.SingleOrDefault(x => x.SignId == sign.Item3);
                                                 <td class="active" id="@sign.Item3">
                                                     <h4>@detail.NameUser</h4>
                                                     <p>@detail.PhoneUser</p>
@@ -181,6 +211,19 @@
                                                     </div>
                                                 </td>
                                             }
+                                        else if (time != null)
+                                        {
+
+                                              <td class="active" id="@time.Id">
+                                                    <h4>Не занято</h4>
+                                                        
+                                                  <div class="hover">
+                                                   
+                                                    <p>@time.TimeSpecialist.TimeOfDay</p>
+                                                    <a class="btn btn-primary" onclick="buttoncl(@sign.Item3)" @*asp-controller="Master" asp-action="Serviced" asp-route-signId="@sign.Item3"*@>Записать</a>                                               
+                                                  </div>
+                                                </td>
+                                        }
                                         else
                                         {
                                             <td></td>
@@ -196,9 +239,10 @@
                                             int tempDay = (int)day;
                                                             @if ((int)tempDay == 6) tempDay = -1;
                                             var sign = list.Where(x => (int)x.Item1 == tempDay + 1 && x.Item2.Hours == 14).FirstOrDefault();
-                                            @if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && Model.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
+                                        var time = Model.times.SingleOrDefault(x => x.TimeSpecialist.Hour == 14 && (int)x.TimeSpecialist.DayOfWeek == tempDay + 1);
+                                            @if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && Model.signViewModels.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
                                             {
-                                                var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);
+                                                var detail = Model.signViewModels.SingleOrDefault(x => x.SignId == sign.Item3);
                                                 <td class="serviced" id="@sign.Item3">
                                                     <h4>@detail.NameUser</h4>
                                                     <p>@detail.PhoneUser</p>
@@ -209,9 +253,9 @@
                                                     </div>
                                                 </td>
                                             }
-                                            else if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && !Model.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
+                                            else if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && !Model.signViewModels.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
                                             {
-                                                var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);
+                                                var detail = Model.signViewModels.SingleOrDefault(x => x.SignId == sign.Item3);
                                                 <td class="active" id="@sign.Item3">
                                                     <h4>@detail.NameUser</h4>
                                                     <p>@detail.PhoneUser</p>
@@ -222,9 +266,22 @@
                                                     </div>
                                                 </td>
                                             }
+                                            else if (time != null)
+                                            {
+
+                                            <td class="active" id="@time.Id">
+                                                <h4>Не занято</h4>
+
+                                                <div class="hover">
+                                                    
+                                                    <p>@time.TimeSpecialist.TimeOfDay</p>
+                                                    <a class="btn btn-primary" onclick="buttoncl(@sign.Item3)" @*asp-controller="Master" asp-action="Serviced" asp-route-signId="@sign.Item3"*@>Записать</a>
+                                                </div>
+                                            </td>
+                                            }
                                             else
                                             {
-                                                                <td></td>
+                                               <td></td>
                                             }
                                         }
                                     }
@@ -237,9 +294,10 @@
                                             int tempDay = (int)day;
                                                             @if ((int)tempDay == 6) tempDay = -1;
                                             var sign = list.Where(x => (int)x.Item1 == tempDay + 1 && x.Item2.Hours == 16).FirstOrDefault();
-                                            @if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && Model.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
+                                        var time = Model.times.SingleOrDefault(x => x.TimeSpecialist.Hour == 16 && (int)x.TimeSpecialist.DayOfWeek == tempDay + 1);
+                                            @if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && Model.signViewModels.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
                                             {
-                                                var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);
+                                                var detail = Model.signViewModels.SingleOrDefault(x => x.SignId == sign.Item3);
                                                 <td class="serviced" id="@sign.Item3">
                                                     <h4>@detail.NameUser</h4>
                                                     <p>@detail.PhoneUser</p>
@@ -250,9 +308,9 @@
                                                     </div>
                                                 </td>
                                             }
-                                            else if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && !Model.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
+                                            else if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && !Model.signViewModels.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
                                             {
-                                                var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);
+                                                var detail = Model.signViewModels.SingleOrDefault(x => x.SignId == sign.Item3);
                                                 <td class="active" id="@sign.Item3">
                                                     <h4>@detail.NameUser</h4>
                                                     <p>@detail.PhoneUser</p>
@@ -262,6 +320,18 @@
                                                         <a class="btn btn-primary" onclick="buttoncl(@sign.Item3)" @*asp-controller="Master" asp-action="Serviced" asp-route-signId="@sign.Item3"*@>Обслужено</a>
                                                     </div>
                                                 </td>
+                                            }
+                                                else if (time != null)
+                                            {
+                                            <td class="active" id="@time.Id">
+                                                <h4>Не занято</h4>
+
+                                                <div class="hover">
+                                                    
+                                                    <p>@time.TimeSpecialist.TimeOfDay</p>
+                                                    <a class="btn btn-primary" onclick="buttoncl(@sign.Item3)" @*asp-controller="Master" asp-action="Serviced" asp-route-signId="@sign.Item3"*@>Записать</a>
+                                                </div>
+                                            </td>
                                             }
                                             else
                                             {
@@ -277,9 +347,10 @@
                                         int tempDay = (int)day;
                                                         @if ((int)tempDay == 6) tempDay = -1;
                                         var sign = list.Where(x => (int)x.Item1 == tempDay + 1 && x.Item2.Hours == 18).FirstOrDefault();
-                                        @if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && Model.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
+                                            var time = Model.times.SingleOrDefault(x => x.TimeSpecialist.Hour == 18 && (int)x.TimeSpecialist.DayOfWeek == tempDay + 1);
+                                        @if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && Model.signViewModels.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
                                         {
-                                            var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);
+                                            var detail = Model.signViewModels.SingleOrDefault(x => x.SignId == sign.Item3);
                                         <td class="serviced" id="@sign.Item3">
                                             <h4>@detail.NameUser</h4>
                                             <p>@detail.PhoneUser</p>
@@ -290,9 +361,9 @@
                                             </div>
                                         </td>
                                         }
-                                        else if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && !Model.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
+                                        else if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && !Model.signViewModels.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
                                         {
-                                            var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);
+                                            var detail = Model.signViewModels.SingleOrDefault(x => x.SignId == sign.Item3);
                                         <td class="active" id="@sign.Item3">
                                             <h4>@detail.NameUser</h4>
                                             <p>@detail.PhoneUser</p>
@@ -303,6 +374,19 @@
                                             </div>
                                         </td>
                                         }
+                                            else if (time != null)
+                                            {
+
+                                            <td class="active" id="@time.Id">
+                                                <h4>Не занято</h4>
+
+                                                <div class="hover">
+                                                   
+                                                    <p>@time.TimeSpecialist.TimeOfDay</p>
+                                                    <a class="btn btn-primary" onclick="buttoncl(@sign.Item3)" @*asp-controller="Master" asp-action="Serviced" asp-route-signId="@sign.Item3"*@>Записать</a>
+                                                </div>
+                                            </td>
+                                            }
                                         else
                                         {
                                             <td></td>
@@ -319,9 +403,10 @@
                                         int tempDay = (int)day;
                                                         @if ((int)tempDay == 6) tempDay = -1;
                                         var sign = list.Where(x => (int)x.Item1 == tempDay + 1 && x.Item2.Hours == 20).FirstOrDefault();
-                                                @if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && Model.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
+                                            var time = Model.times.SingleOrDefault(x => x.TimeSpecialist.Hour == 20 && (int)x.TimeSpecialist.DayOfWeek == tempDay + 1);
+                                                @if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && Model.signViewModels.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
                                                 {
-                                                    var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);
+                                                    var detail = Model.signViewModels.SingleOrDefault(x => x.SignId == sign.Item3);
                                                 <td class="serviced" id="@sign.Item3">
                                                     <h4>@detail.NameUser</h4>
                                                     <p>@detail.PhoneUser</p>
@@ -332,9 +417,9 @@
                                                     </div>
                                                 </td>
                                                 }
-                                                else if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && !Model.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
+                                                else if (@sign != (default(DayOfWeek), default(TimeSpan), 0) && !Model.signViewModels.SingleOrDefault(x => x.SignId == sign.Item3).IsServiced)
                                                 {
-                                                    var detail = Model.SingleOrDefault(x => x.SignId == sign.Item3);
+                                                    var detail = Model.signViewModels.SingleOrDefault(x => x.SignId == sign.Item3);
                                                 <td class="active" id="@sign.Item3">
                                                     <h4>@detail.NameUser</h4>
                                                     <p>@detail.PhoneUser</p>
@@ -345,10 +430,23 @@
                                                     </div>
                                                 </td>
                                                 }
-                                        else
-                                        {
-                                            <td></td>
-                                        }
+                                            else if (time != null)
+                                            {
+
+                                            <td class="active" id="@time.Id">
+                                                <h4>Не занято</h4>
+
+                                                <div class="hover">
+                                                   
+                                                    <p>@time.TimeSpecialist.TimeOfDay</p>
+                                                    <a class="btn btn-primary" onclick="buttoncl(@sign.Item3)" @*asp-controller="Master" asp-action="Serviced" asp-route-signId="@sign.Item3"*@>Записать</a>
+                                                </div>
+                                            </td>
+                                            }
+                                            else
+                                            {
+                                                <td></td>
+                                            }
                                     }
                                 }
 
@@ -356,7 +454,7 @@
                          
                         </tbody>
                         
-                    }
+                    
                 </table>
             </div>
         </div>
@@ -378,7 +476,9 @@
                 error: function (response) {
                     alert(response.responseText);
                 }
-            });           
+            });
+            document.getElementById(id).setAttribute("class", "myClass");
+            $('.myClass').css('color', '#808080').css('background-color', '#A9A9A9');
         };
     </script>
  @*   <script>

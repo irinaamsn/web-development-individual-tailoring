@@ -220,3 +220,7 @@
     color: #808080;
     background-color: #A9A9A9;
 }
+.noActive {
+    color: #000;
+    background-color: #00ff90;
+}

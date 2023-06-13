@@ -39,24 +39,42 @@
                     <div class="tab-content mt-4">
                         <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
                                <div class="row">
+                                @{
+                                    DateTime date = DateTime.Now;
+                                    //date = date.Date;
+                                    int dayOfWeek = (int)date.Date.DayOfWeek - 1;
+                                    if (dayOfWeek < 0)
+                                        dayOfWeek = 6;
+                                    DateTime begin = date;
+                                    DateTime end = begin.AddDays(6);
+
+                                    var list = new List< Time>();
+                                  
+                                        foreach (var t in Model.allTimeSpecialist.Where(x => x.TimeSpecialist >= begin && x.TimeSpecialist <= end.Date))
+                                        {
+                                            list.Add(t);
+                                        }
+                                   
+                                }
                                
                             @{
-                                foreach (Time t in Model.allTimeSpecialist)
+                                foreach (Time t in list.Where(x=>!x.isDelete).ToArray())
                                 {
-                                if (!t.isDelete)
-                                {
-                                        <div class="card times" style=" width: 20%; margin:20px; background-color:#f8f9f9; border-color:#cecc;" asp-for=sighTime>
-                                            <div class="card-body">
+                                         <div class="card times" style=" width: 20%; margin:20px; background-color:#f8f9f9; border-color:#cecc;" asp-for=sighTime>
+                                                <div class="card-body">
 
-                                                <a class="btn card-text" href="#" onclick="setTime(@t.Id, @t.SpecialistDetailsId)"><i class="fa fa-calendar" aria-hidden="true"></i> @t.TimeSpecialist</a>
-                                                @* <a href="#" class="btn btn-primary">asp-action="AddToReseption" asp-controller="Reseption" asp-route-timeId="@t.Id" asp-route-id="@t.SpecialistDetailsId" asp-route-user="@User.Identity.Name"</a>*@
+                                                    <a class="btn card-text" href="#" onclick="setTime(@t.Id, @t.SpecialistDetailsId)"><i class="fa fa-calendar" aria-hidden="true"></i> @t.TimeSpecialist</a>
+                                                    @* <a href="#" class="btn btn-primary">asp-action="AddToReseption" asp-controller="Reseption" asp-route-timeId="@t.Id" asp-route-id="@t.SpecialistDetailsId" asp-route-user="@User.Identity.Name"</a>*@
 
+                                                </div>
                                             </div>
-                                        </div>
-                                }
+                                    
                                     //@Html.Partial("ChooseTime",t)
                                 // <button class="btn chooseTime" onclick="setTime(@t.TimeSpecialist)"><h2><i class="fa fa-calendar" aria-hidden="true"></i> @t.TimeSpecialist </h2></button>
                                 }
+                                    @if (list.Where(x => !x.isDelete).Count()==0) {
+                                        <h2>Времени для записи нет</h2>
+                                    }
                             }
                                </div>
                         </div>

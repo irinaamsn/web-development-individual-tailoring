@@ -3,7 +3,7 @@
 
 <div class="row" style="margin-top:80px; padding:150px;">
 	<h3>Добавление записи</h3>
-	<form asp-controller="Admin" asp-action="AddTime" asp-route-time="@Model" method="post" class="form-horizontal">
+    <form asp-controller="Master" asp-action="AddTime" asp-route-model="@Model" asp-route-name="@User.Identity.Name" method="post" class="form-horizontal">
         <div class="input-group" >
             <input asp-for=Time type="text" class="form-control" id="datetimepicker6" />
             <span class="input-group-addon">

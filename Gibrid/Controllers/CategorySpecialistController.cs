@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Gibrid.Controllers
 {
-    public class CategorySpecialistController:Controller
+    public class CategorySpecialistController:Controller//категория мастера
     {
         private readonly ISpecialistCategory _categoryRepos;
         public CategorySpecialistController(ISpecialistCategory categoryRepos)
@@ -13,10 +13,10 @@ namespace Gibrid.Controllers
             _categoryRepos = categoryRepos;
         }
 
-        public ViewResult List()
+        public ViewResult List()//получение списка доступных категорий
         {
 
-            var list = _categoryRepos.AllCategories;
+            var list = _categoryRepos.AllCategories;//лист категорий
 
             return View(list);
         } 

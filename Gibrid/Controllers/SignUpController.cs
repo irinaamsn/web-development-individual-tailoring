@@ -7,7 +7,7 @@ using Gibrid.VewModels;
 
 namespace Gibrid.Controllers
 {
-    public class SignUpController:Controller
+    public class SignUpController:Controller//запись
     {
         private readonly IAllSignUp allSignUp;
         private readonly IListTime listTimerepos;
@@ -32,9 +32,9 @@ namespace Gibrid.Controllers
         }
 
         [HttpPost]
-        public IActionResult CheckSignUp(string name, string phone, int timeId )//UserName=Email
+        public IActionResult CheckSignUp(string name, string phone, int timeId )//получение данных 
         {
-            var sign = new SignUp { Name = name, phone = phone };
+            var sign = new SignUp { Name = name, phone = phone };//создание записи
             var user = User.Identity.Name;
             var id = _userManager.FindByNameAsync(user).Result.Id;
             //var anySign = allSignUp.AllSignUpDetails.SingleOrDefault(x => x.UserId == id);
@@ -42,11 +42,11 @@ namespace Gibrid.Controllers
             reseption.ReseptionItem = reseption.getReseptionItem();
             if (ModelState.IsValid)
             {
-                allSignUp.createSignUp(sign, id, timeId);
+                allSignUp.createSignUp(sign, id, timeId);//создние и добавление в БД
 
                 var signDet = allSignUp.AllSignUpDetails.SingleOrDefault(x => x.SignUpId == sign.Id);
                
-                listTimerepos.DeleteTime(timeId);//DELETE
+                listTimerepos.DeleteTime(timeId);//удаление времени из доступных для записи
                                                             //return RedirectToAction("Complete");
                 return RedirectToAction("CreateSignUp", "PersonalAccount", new { idSp = signDet.SpecialistId });
             }

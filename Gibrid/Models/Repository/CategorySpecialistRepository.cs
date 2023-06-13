@@ -3,7 +3,7 @@ using Gibrid.VewModels;
 
 namespace Gibrid.Models.Repository
 {
-    public class CategorySpecialistRepository : ISpecialistCategory
+    public class CategorySpecialistRepository : ISpecialistCategory//реализация интерфейса
     {
         private readonly AppDBContent _content;
 
@@ -11,7 +11,7 @@ namespace Gibrid.Models.Repository
         {
             _content = content;
         }
-        public void createCategory(CategorySpecialistViewModel categorySp)
+        public void createCategory(CategorySpecialistViewModel categorySp)//создание категории
         {
            
             var categoryDetails = new CategorySpecialist()
@@ -19,10 +19,10 @@ namespace Gibrid.Models.Repository
                 Name = categorySp.Name,
                 isEmpty = false,
             };
-            _content.CategorySpecialist.Add(categoryDetails);
+            _content.CategorySpecialist.Add(categoryDetails);//добавление в БД
             // }
-            _content.SaveChanges();
+            _content.SaveChanges();//сохраниние изменений в БД
         }
-        public IEnumerable<CategorySpecialist> AllCategories => _content.CategorySpecialist;
+        public IEnumerable<CategorySpecialist> AllCategories => _content.CategorySpecialist;//все категории
     }
 }

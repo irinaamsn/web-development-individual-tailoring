@@ -13,15 +13,13 @@ namespace Gibrid.Models
     public class Reseption
     {
         private readonly AppDBContent _content;
-        //private readonly IUser userresp;
         public Reseption(AppDBContent content)
         {
             _content = content;
         }
         public string ReseptionId { get; set; }
-        //public List<ReseptionItem> listReseptionItems { get; set; }
         public ReseptionItem ReseptionItem { get; set; }
-        public static Reseption GetReseption(IServiceProvider service)
+        public static Reseption GetReseption(IServiceProvider service)//установка сессии
         {
             ISession session = service.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
             var context = service.GetService<AppDBContent>();
@@ -31,7 +29,6 @@ namespace Gibrid.Models
         }
         public ReseptionItem AddToReseption(Specialist specialist, DateTime time, string idUser, int timeId)
         {
-            //  _content.TimeDetails.Add(time);
 
             var item = new ReseptionItem
             {
@@ -43,33 +40,18 @@ namespace Gibrid.Models
                 userId = idUser,
 
             };
-            _content.ReseptionItem.Add(item);
-            _content.SaveChanges();
+            _content.ReseptionItem.Add(item);//добавление "корзины" (мастер и время) в БД
+            _content.SaveChanges();//сохранение изменений в БД
             return item;
         }
         public void DeleteFromReseption(int id)
         {
-            //  _content.TimeDetails.Add(time);
-            var item = _content.ReseptionItem.SingleOrDefault(x => x.Id == id);
-            _content.ReseptionItem.Remove(item);
+            var item = _content.ReseptionItem.SingleOrDefault(x => x.Id == id);//получение "корзины" (мастер и время) из БД
+            _content.ReseptionItem.Remove(item);//удаление "корзины" (мастер и время) из БД
 
-            _content.SaveChanges();
+            _content.SaveChanges();//сохранение изменений в БД
         }
-        //public void DeleteTime(int IdTime)//Time && TimeDetails
-        //{
-
-        //    var timedet = _content.TimeDetails.SingleOrDefault(x=>x.Id==IdTime);
-        //    _content.TimeDetails.Remove(timedet);
-        //    var timeID = _content.TimeDetails.SingleOrDefault(x => x.Id == IdTime).TimeId;
-        //    var time = _content.Time.SingleOrDefault(x => x.Id == timeID);
-        //    _content.Time.Remove(time);
-        //    _content.SaveChanges();
-        //}
-        public ReseptionItem getReseptionItem()
-        {
-            var list = _content.ReseptionItem.SingleOrDefault(c => c.ReseptionId == ReseptionId);
-            return list;
-        }
+        public ReseptionItem getReseptionItem() => _content.ReseptionItem.SingleOrDefault(c => c.ReseptionId == ReseptionId);
 
     }
 }

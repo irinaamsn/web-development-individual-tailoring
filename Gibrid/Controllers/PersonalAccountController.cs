@@ -6,7 +6,7 @@ using Gibrid.VewModels;
 
 namespace Gibrid.Controllers
 {
-    public class PersonalAccountController:Controller
+    public class PersonalAccountController:Controller//личный кабинет пользователя
     {
         private readonly UserManager<User> _userManager;
         private readonly IPersonalAccount personalAccountPepos;
@@ -30,96 +30,82 @@ namespace Gibrid.Controllers
             this.reseption = reseption;
         }
 
-        //public async Task<IActionResult> Index()
-        //{
-        //    string userName = User.Identity.Name;
-        //    User user = await _userManager.FindByNameAsync(userName);
-
-        //    //ViewBag.Message = "Добро пoжаловать в личный кабинет";
-        //    return View(user);
-        //}
-        public IActionResult CreateSignUp(int idSp)
+        public IActionResult CreateSignUp(int idSp)//Id мастера
          {
-            var list = reseption.getReseptionItem();
-            var specialist = spRepos.getObjectSpecialist(idSp);
-            var times = listTimeRepos.getAllTimeDetails.Where(x => x.SpecialistDetailsId == specialist.Id && !x.isDelete);
-            if (times.Count() == 0) specialist.isHasTime = false;
-            var listTime = listTimeRepos.getAllTimeDetails.Where(x => x.SpecialistDetailsId == idSp);
+            var list = reseption.getReseptionItem();//текущая корзина (мастер и время)
+            var specialist = spRepos.getObjectSpecialist(idSp);//специалистполученный по ID
+            var times = listTimeRepos.getAllTimeDetails.Where(x => x.SpecialistDetailsId == specialist.Id && !x.isDelete);//время доступное для записи у мастера
+            if (times.Count() == 0) specialist.isHasTime = false;//если времени нет то у спеуиалиста стоит false
+            var listTime = listTimeRepos.getAllTimeDetails.Where(x => x.SpecialistDetailsId == idSp);//список времени мастера по его айди 
             SignUpDetail sign = null;
             ReseptionItem newLst = null;
             CreateSignUpViewModel model = null;
-           if (list==null)
+            if (list==null)
             {
                 var user = User.Identity.Name;
-                var userId = _userManager.FindByNameAsync(user).Result.Id;
-
-                sign = SignUpRepos.AllSignUpDetails.SingleOrDefault(x => x.UserId == userId && !x.isDelete && !x.isServiced);
+                var userId = _userManager.FindByNameAsync(user).Result.Id;//id авторизованного пользователя - мастера
+                sign = SignUpRepos.AllSignUpDetails.SingleOrDefault(x => x.UserId == userId && !x.isDelete && !x.isServiced);// запись к мастеру
                 if (sign !=null) newLst = new ReseptionItem { Time = sign.Time };
                 model = new CreateSignUpViewModel { Specialist = specialist, allTimeSpecialist = listTime, ReseptionItems = newLst };
             }
             else model = new CreateSignUpViewModel { Specialist = specialist, allTimeSpecialist = listTime, ReseptionItems = list };
             return View(model);
         }
-        public IActionResult DropdownAlerts()
-        {
-            return View("MyAlerts",User.Identity.Name);
-        }
-        //public async Task<IActionResult> MyAlerts(string name)
+        //public IActionResult DropdownAlerts()
         //{
-        //    User user = await _userManager.FindByNameAsync(name);
-           
-        //    var list = alertRepos.allAlerts.Where(x => x.UserId == user.Id);
-        //    return View(list);
+        //    return View("MyAlerts",User.Identity.Name);
         //}
+
         public IActionResult RateMaster()
         {     
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> RateMaster(ReviewViewModel reviews, int id, int storId ,int Rating)
+        public async Task<IActionResult> RateMaster(ReviewViewModel reviews, int id, int storId ,int Rating)//метод создания отзыва
         {
-            var specialist = spRepos.getObjectSpecialist(id);
-            spRepos.ChangeRating(specialist, Rating);
-            var clientName = User.Identity.Name;
+            var specialist = spRepos.getObjectSpecialist(id);//специалист найденный по айди
+            spRepos.ChangeRating(specialist, Rating);//изменем его рейтинг после оценки
+            var clientName = User.Identity.Name;//имя авторизованного пользователя- клиента
            
-            User user = await _userManager.FindByNameAsync(clientName);
-            var clientId = user.Id;
-            var storage = dataRepos.allDataStorages.SingleOrDefault(x => x.Id == storId);
+            User user = await _userManager.FindByNameAsync(clientName);//авторизованный пользователь найденный по имени
+            //var clientId = user.Id;//его айди
+            //var storage = dataRepos.allDataStorages.SingleOrDefault(x => x.Id == storId);
             //storage.isRate = true;
             if (ModelState.IsValid)
             {
-                reviewRepos.createReview(reviews, user, id, Rating);
+                reviewRepos.createReview(reviews, user, id, Rating);//прр валидном заполнении данных пользователем создается отзыв и добавляется в БД
                 
             }
-            Thread.Sleep(1000);
-            return RedirectToAction("Signs", new { name = clientName });
+            Thread.Sleep(1000);//остановка на 1 секунду
+            return RedirectToAction("Signs", new { name = clientName });//перенаправление пользователя в свой ЛК
         }
-        public async Task<IActionResult> Settings(string name)
+        public async Task<IActionResult> Settings(string name)//метод изменения ПД пользователя
         {
-            User user = await _userManager.FindByNameAsync(name);
+            User user = await _userManager.FindByNameAsync(name);//сам авторизованный пользователь
             if (user == null)
             {
                 return NotFound();
             }
             SettingsViewModel model = new SettingsViewModel { UserName = user.UserName, Email = user.Email, Year = user.Year, OldPassword = user.Password };
+            //создание класса содержащего персональные данные 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Settings(SettingsViewModel model)
+        public async Task<IActionResult> Settings(SettingsViewModel model)//получение новых данных измененных пользователем
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid)//при валидном изменении данных
             {
-                User user = await _userManager.FindByNameAsync(model.UserName);//
-                if (user != null)//todo
-                {                  
+                User user = await _userManager.FindByNameAsync(model.UserName);//пользователь
+                if (user != null)
+                {                  //переопределние его данных
                     user.Email = model.Email;
                     user.UserName = model.Email;
                     user.Year = model.Year;
                     user.Password = model.NewPassword;
 
-                    var result = await _userManager.UpdateAsync(user);
+                    var result = await _userManager.UpdateAsync(user);//сохранение
                     if (result.Succeeded)
                     {
                         return View(model);
@@ -136,21 +122,21 @@ namespace Gibrid.Controllers
             return View(model);
         }
 
-        public IActionResult Signs(string name)
+        public IActionResult Signs(string name)//ЛК пользователя содержащий текущую запись и архив записей
         {
             UserViewModel model = null;
-            var id = _userManager.FindByNameAsync(name).Result.Id;
-            var sign = SignUpRepos.AllSignUpDetails.SingleOrDefault(x => x.UserId == id && !x.isDelete);
+            var id = _userManager.FindByNameAsync(name).Result.Id;//айди пользователя
+            var sign = SignUpRepos.AllSignUpDetails.SingleOrDefault(x => x.UserId == id && !x.isDelete);//его запись 
 
-            if (sign != null)
+            if (sign != null)//если запись текущая есть
             {
-                var time = listTimeRepos.getObjectTimeDetail(sign.TimeSignId);
-                model = new UserViewModel
+                var time = listTimeRepos.getObjectTimeDetail(sign.TimeSignId);//получение времени записи
+                model = new UserViewModel//модель содержащая информацию о записи для вывода в представлении (странице)
                 {
                     Sign = sign,
                     Time = time,
                     Specialist = spRepos.Specialists.SingleOrDefault(x => x.Id == sign.SpecialistId),
-                    OldSigns = dataRepos.allDataStorages.Where(x => x.UserId == id).ToList()
+                    OldSigns = dataRepos.allDataStorages.Where(x => x.UserId == id).ToList()//его архив записей
 
                 };
             }
@@ -182,14 +168,15 @@ namespace Gibrid.Controllers
 
             return View(list);
         }
-        public IActionResult CancelSignUp(int signId/*, int timeId*/)//idSignUpDetail, idSpecialistDetail, TimeSpecialistDetail
+        public IActionResult CancelSignUp(int signId)//метод отмены записей пользователя
         {
-            var sign = SignUpRepos.AllSignUpDetails.SingleOrDefault(x=>x.Id==signId);
+            var sign = SignUpRepos.AllSignUpDetails.SingleOrDefault(x=>x.Id==signId);//его текущая запись
             var timeId = sign.TimeSignId;
-            var specialist = spRepos.Specialists.SingleOrDefault(x => x.Id == sign.SpecialistId); specialist.isHasTime = true;
-            listTimeRepos.ReturnTime(timeId);
-            personalAccountPepos.DeleteSignUp(signId);
-            return RedirectToAction("Signs", "PersonalAccount", new {name=User.Identity.Name});
+            var specialist = spRepos.Specialists.SingleOrDefault(x => x.Id == sign.SpecialistId); //специалист к которому он записан находится по айди
+            specialist.isHasTime = true;
+            listTimeRepos.ReturnTime(timeId);//возвращение времени в список предложенных когда пользователь будет записываться  кэтому мастеру
+            personalAccountPepos.DeleteSignUp(signId);//удаление записи (из БД не удаляется)
+            return RedirectToAction("Signs", "PersonalAccount", new {name=User.Identity.Name});//перенаправление на ЛК поользователя
         }
         public IActionResult Complete()
         {

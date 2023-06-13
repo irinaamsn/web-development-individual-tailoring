@@ -7,7 +7,6 @@ namespace Gibrid.Models.Repository
     public class ReviewsRepository:IReview
     {
         private readonly AppDBContent _content;
-        
 
         public ReviewsRepository(AppDBContent content)
         {
@@ -26,15 +25,15 @@ namespace Gibrid.Models.Repository
                 DateReview=DateTime.Now
             };
             
-            _content.Reviews.Add(revObj);
-            _content.SaveChanges();
+            _content.Reviews.Add(revObj);//добавление отзыва в соответствующую таблицу в БД
+            _content.SaveChanges();//сохранение изменений в БД
         }
         public void DeleteReviews(Reviews item)
         {
-            item.isDelete = true;
-            _content.Update(item);
-            _content.SaveChanges();
+            item.isDelete = true;//установка статуса удаления
+            _content.Update(item);//обновление отзыва в БД
+            _content.SaveChanges();//сохранение изменений в БД
         }
-        public IEnumerable<Reviews> allReviewsDetails => _content.Reviews;
+        public IEnumerable<Reviews> allReviewsDetails => _content.Reviews;//получение всех отзывов из БД
     }
 }

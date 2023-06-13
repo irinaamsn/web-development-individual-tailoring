@@ -21,39 +21,30 @@ namespace Gibrid.Models.Repository
                 isActive=true
 
             };
-            _content.Time.Add(timeDetails);
+            _content.Time.Add(timeDetails);//добавление времени в соответствующую таблицу в БД
 
-            spRep.getObjectSpecialist(idSpDet).TimeS.ToList().Add(timeDetails);//???
-            var specialist = spRep.getObjectSpecialist(idSpDet);
+            spRep.getObjectSpecialist(idSpDet).TimeS.ToList().Add(timeDetails);
+            var specialist = spRep.getObjectSpecialist(idSpDet);//получение мастера по айди
             specialist.isHasTime = true;
-            _content.SaveChanges();
+            _content.SaveChanges();//сохранение изменений в БД
         }
         public void DeleteTime(int idTimeDet)// TimeDetail
         {
             var timedet = getObjectTimeDetail(idTimeDet);
-            timedet.isDelete = true;
-            _content.Update(timedet);
-            _content.SaveChanges();
+            timedet.isDelete = true;//установка статуса удаления
+            _content.Update(timedet);//обновление времени в БД
+            _content.SaveChanges();//сохранение изменений в БД
         }
-        //public void DeleteTime(int idTimeDet)//Time 
-        //{
-        //    var timedet = getObjectTimeDetail(idTimeDet);
-        //    var timeID = _content.TimeDetails.SingleOrDefault(x => x.Id == idTimeDet).TimeId;
-        //    var timeObj = getObjectTime(timeID);
-        //    _content.Time.Remove(timeObj);
-        //    _content.SaveChanges();
-        //}
         public void ReturnTime(int timeId)
         {
             var time = _content.Time.SingleOrDefault(x => x.Id == timeId);
-            time.isDelete = false;
-            _content.Update(time);
-            _content.SaveChanges();
+            time.isDelete = false;//установка статуса удаления
+            _content.Update(time);//обновление времени в БД
+            _content.SaveChanges();//сохранение изменений в БД
         }
-        public Time getObjectTimeDetail(int id) => _content.Time.SingleOrDefault(x => x.Id == id);
+        public Time getObjectTimeDetail(int id) => _content.Time.SingleOrDefault(x => x.Id == id);//получение времени по айди мастера из БД
 
-       // public Time getObjectTime(int TimeId) => _content.Time.SingleOrDefault(x => x.Id == TimeId);
-        public IEnumerable<Time> getAllTimeDetails => _content.Time;
+        public IEnumerable<Time> getAllTimeDetails => _content.Time;//получение всего времени из БД
 
     }
 }

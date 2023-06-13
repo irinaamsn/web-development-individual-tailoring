@@ -4,10 +4,10 @@ namespace Gibrid.VewModels
 {
     public class CreateSignUpViewModel
     {
-        public SignUp SignUp { get; set; }
-        public ReseptionItem ReseptionItems { get; set; }
-        public Specialist Specialist { get; set; }
-        public int TimeId { get; set; }
-        public IEnumerable<Time> allTimeSpecialist { get; set; }
+        public SignUp SignUp { get; set; }//запись
+        public ReseptionItem ReseptionItems { get; set; }//"корзина" - мастер и время
+        public Specialist Specialist { get; set; }//мастер
+        public int TimeId { get; set; }//ID времени
+        public IEnumerable<Time> allTimeSpecialist { get; set; }//коллекция Time мастера
     }
 }

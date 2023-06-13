@@ -9,7 +9,7 @@ using Gibrid.VewModels;
 
 namespace Gibrid.Controllers
 {
-    public class RolesController : Controller
+    public class RolesController : Controller//контроллер представляющий роль пользователя
     {
         RoleManager<IdentityRole> _roleManager;
         UserManager<User> _userManager;
@@ -22,7 +22,7 @@ namespace Gibrid.Controllers
 
         public IActionResult Create() => View();
         [HttpPost]
-        public async Task<IActionResult> Create(string name)
+        public async Task<IActionResult> Create(string name)//создание роли, получение данных при создании
         {
             if (!string.IsNullOrEmpty(name))
             {

@@ -7,8 +7,8 @@ namespace Gibrid.Models
 {
     public class Account
     {
-        [Required]
-        [Display(Name = "Email")]
+        [Required]//атрибут указывает что это поле обязательно для заполнения и для проверки на валидность
+        [Display(Name = "Email")]//атрибут определяет отображаемое имя для свойства 
         public string Email { get; set; }
 
         [Required]
@@ -21,8 +21,8 @@ namespace Gibrid.Models
         public string Password { get; set; }
 
         [Required]
-        [Compare("Password", ErrorMessage = "Пароли не совпадают")]
-        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "Пароли не совпадают")]//атрибут сравнивает значение свойства PasswordConfirm со свойством Password
+        [DataType(DataType.Password)]//атрибут указывает на то, что поле PasswordConfirm предназначено для ввода пароля
         [Display(Name = "Подтвердить пароль")]
         public string PasswordConfirm { get; set; }
     }

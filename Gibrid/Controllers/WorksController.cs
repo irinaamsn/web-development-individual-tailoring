@@ -14,9 +14,9 @@ namespace Gibrid.Controllers
             _allSpecialist = allSpecialist;
             _worksRepos = works;
         }
-        public ViewResult List(int id)//idSpecialist
+        public ViewResult List(int id)//метод для получение списка работ матсера по его айди
         {
-            var listWorks = _worksRepos.WorksDetails.Where(x=>x.SpecialistId==id);
+            var listWorks = _worksRepos.WorksDetails.Where(x=>x.SpecialistId==id);//лист работ
 
 
             return View(listWorks);

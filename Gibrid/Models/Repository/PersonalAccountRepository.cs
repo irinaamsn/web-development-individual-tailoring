@@ -13,42 +13,36 @@ namespace Gibrid.Models.Repository
             this.dataRepos = dataRepos;
             this.timeRepos = timeRepos; 
         }
-        public void DeleteSignUpByMaster(int idSignUpDet)//SignUp && SignUpDetails
+        public void DeleteSignUpByMaster(int idSignUpDet)//удаление записи в случае обслуживания
         {
             var signdet = _content.SignUpDetail.SingleOrDefault(x => x.Id == idSignUpDet);
-            //var timeDetId = timeRepos.getAllTimeDetails.SingleOrDefault(x => x.Time == signdet.Time && x.SpecialistDetailsId == signdet.SpecialistId).Id;
-            //timeRepos.DeleteTime(timeDetId);
-            var data = dataRepos.AddToStorage(signdet);
-            data.isServiced = true;
-            var time = timeRepos.getAllTimeDetails.SingleOrDefault(x => x.Id == signdet.TimeSignId);
-            time.isDelete = true;
-            signdet.isDelete = true;
-            signdet.isServiced = true;
-            _content.Update(signdet);
-            _content.SaveChanges();
+            var data = dataRepos.AddToStorage(signdet);//добавление записи в архив записей
+            data.isServiced = true;//установка статуса обслуживания
+            var time = timeRepos.getAllTimeDetails.SingleOrDefault(x => x.Id == signdet.TimeSignId);//получение времени по его айди
+            time.isDelete = true;//установка статуса удаления
+            signdet.isDelete = true;//установка статуса удаления
+            signdet.isServiced = true;//установка статуса обслуживания
+            _content.Update(signdet);//обновление записи в БД
+            _content.SaveChanges();//сохранение изменений в БД
 
         }
-        public void DeleteSignUp(int idSignUpDet)//SignUp && SignUpDetails
+        public void DeleteSignUp(int idSignUpDet)//удаление записи
         {
-            var signdet = _content.SignUpDetail.SingleOrDefault(x => x.Id == idSignUpDet);
-            //var timeDetId = timeRepos.getAllTimeDetails.SingleOrDefault(x => x.Time == signdet.Time && x.SpecialistDetailsId == signdet.SpecialistId).Id;
-            //timeRepos.DeleteTime(timeDetId);
-            var data= dataRepos.AddToStorage(signdet);
-            
-           signdet.isDelete = true;
-            _content.Update(signdet);
-            _content.SaveChanges();
-            
+            var signdet = _content.SignUpDetail.SingleOrDefault(x => x.Id == idSignUpDet);//получение записи по его айди
+            var data= dataRepos.AddToStorage(signdet); //добавление записи в архив записей       
+            signdet.isDelete = true;//установка статуса удаления
+            _content.Update(signdet);//обновление записи в БД
+            _content.SaveChanges();//сохранение изменений в БД
+
         }
         public void ServicedSignUp(int idSignUpDet)//SignUp && SignUpDetails
         {
-            DeleteSignUp(idSignUpDet);
-            var sign = _content.SignUpDetail.SingleOrDefault(x => x.Id == idSignUpDet);
-            //sign.isServiced = true;
-            _content.Update(sign);
-            _content.SaveChanges();
+            DeleteSignUp(idSignUpDet);//удаление записи
+            var sign = _content.SignUpDetail.SingleOrDefault(x => x.Id == idSignUpDet);//получение записи по его айди
+            _content.Update(sign);//обновление записи в БД
+            _content.SaveChanges();//сохранение изменений в БД
         }
-        public SignUpDetail mySignUp(string userId) => _content.SignUpDetail.SingleOrDefault(x => x.UserId == userId);
+        public SignUpDetail mySignUp(string userId) => _content.SignUpDetail.SingleOrDefault(x => x.UserId == userId);//получение записи по айди клиента из БД
         public SignUpDetail getObjSignUpDetail(int id) => _content.SignUpDetail.SingleOrDefault(x => x.Id == id);
     }
 }

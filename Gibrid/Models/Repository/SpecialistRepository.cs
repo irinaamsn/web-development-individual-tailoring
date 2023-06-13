@@ -21,70 +21,64 @@ namespace Gibrid.Models.Repository
         }
         public void createSpecialist(SpecialistViewModel specialist)
         {
-            //_content.Specialist.Add(specialist);
-            //_content.SaveChanges();
             byte[] imageData = null;
             var category = carRep.AllCategories.SingleOrDefault(x => x.Name == specialist.Category);
-            category.isEmpty = true;///??????
+            category.isEmpty = true;
            
             if (specialist.Avatar != null)
-            {
-                
+            {               
                 // считываем переданный файл в массив байтов
                 using (var binaryReader = new BinaryReader(specialist.Avatar.OpenReadStream()))
                 {
                     imageData = binaryReader.ReadBytes((int)specialist.Avatar.Length);
                 }
-               // specialistObj.Avatar = imageData;
+              
             }
-            
-            //установка массива байтов
-
             User user = _userManager.FindByNameAsync(specialist.UserName).Result;
             var specialistDetails = new Specialist()
-                {
-                    Name= specialist.Name,
-                    SurName= specialist.SurName,
-                    FullName= specialist.FullName,
-                    Phone= specialist.Phone,
-                    isHasTime=false,
-                    userId= user.Id,
-                    Experience= specialist.Experience,
-                    Rating =0,
-                    Avatar=imageData,
-                    CategoryId=category.Id,
-                    CategoryName = specialist.Category
-                };
-                _content.Specialist.Add(specialistDetails);
-           // }
-            _content.SaveChanges();
+            {
+                Name= specialist.Name,
+                SurName= specialist.SurName,
+                FullName= specialist.FullName,
+                Phone= specialist.Phone,
+                isHasTime=false,
+                userId= user.Id,
+                Experience= specialist.Experience,
+                Rating =0,
+                Avatar=imageData,
+                CategoryId=category.Id,
+                CategoryName = specialist.Category
+            };
+                _content.Specialist.Add(specialistDetails);//добавление специалиста в сооответствующую таблицу в БД
+       
+            _content.SaveChanges();//сохранение изменений в БД
         }
         public void ChangeRating(Specialist specialist, int rating)
-        {
+        {//пересчет рейтинга мастера
             var countReviews = reviewRep.allReviewsDetails.Where(x => x.SpecialistId == specialist.Id).Count();
             countReviews += 1;
             var sumRatings = reviewRep.allReviewsDetails.Where(x => x.SpecialistId == specialist.Id).Sum(x => x.Rating);
             sumRatings += rating;
-            specialist.Rating = (int)Math.Round((double)(sumRatings/countReviews));
-            _content.SaveChanges();
+            specialist.Rating = (int)Math.Round((double)(sumRatings/countReviews));//установка нового рейтинга
+            _content.SaveChanges();//сохранение изменений в БД
         }
         public void Update(Specialist specialist)
         {
-            _content.Specialist.Update(specialist);
-          
-            _content.SaveChanges();
+            _content.Specialist.Update(specialist);//обновление специалиста в БД
+
+            _content.SaveChanges();//сохранение изменений в БД
         }
         public void Delete(Specialist specialist)
         {
            
            specialist.isDelete = true;
-            _content.Update(specialist);
-            _content.SaveChanges();
+            _content.Update(specialist);//обновление специалиста в БД
+            _content.SaveChanges();//сохранение изменений в БД
         }
-        public IEnumerable<CategorySpecialist> Categories => _content.CategorySpecialist;
-        public IEnumerable<Specialist> Specialists => _content.Specialist;
-      
-        public IEnumerable<Time> SpecialistTimes(int id) => _content.Time.Where(x=>x.SpecialistDetailsId==id);
-        public Specialist getObjectSpecialist(int spId) => _content.Specialist.SingleOrDefault(sp => sp.Id == spId);
+        public IEnumerable<CategorySpecialist> Categories => _content.CategorySpecialist;//получение всех категорий из БД
+        public IEnumerable<Specialist> Specialists => _content.Specialist;//получение всех мастеров из БД
+
+        public IEnumerable<Time> SpecialistTimes(int id) => _content.Time.Where(x=>x.SpecialistDetailsId==id);//получение списка времен мастера по его айди из БД
+        public Specialist getObjectSpecialist(int spId) => _content.Specialist.SingleOrDefault(sp => sp.Id == spId);//получение мастера по его айди из БД
     }
 }

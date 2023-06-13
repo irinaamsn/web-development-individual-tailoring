@@ -4,6 +4,6 @@ namespace Gibrid.VewModels
 {
     public class CategorySpecialistViewModel
     {
-        public string? Name { get; set; }
+        public string? Name { get; set; }//название категории
     }
 }

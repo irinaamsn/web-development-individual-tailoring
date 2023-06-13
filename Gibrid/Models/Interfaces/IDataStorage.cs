@@ -2,8 +2,8 @@
 {
     public interface IDataStorage
     {
-        public DataStorageItem AddToStorage(SignUpDetail signUpDetail);
-        public void DeleteData(DataStorageItem item);
-        public IEnumerable<DataStorageItem> allDataStorages { get; }
+        public DataStorageItem AddToStorage(SignUpDetail signUpDetail);// Добавление записи в архив
+        public void DeleteData(DataStorageItem item);//удаление записи из архива
+        public IEnumerable<DataStorageItem> allDataStorages { get; }//получение всех записей в архиве пользователя
     }
 }

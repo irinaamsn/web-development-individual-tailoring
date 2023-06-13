@@ -31,7 +31,7 @@ namespace Gibrid.Controllers
           
         }
 
-        public IActionResult List()//TODO
+        public IActionResult List()//получение списка записей
         {
             var listsignUpDetails = SignUpRepos.AllSignUpDetails.OrderBy(x => x.Id).ToList();
             var listsignUp = SignUpRepos.AllSignUp.OrderBy(x => x.Id).ToList();
@@ -49,11 +49,11 @@ namespace Gibrid.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult AddSpecialist(SpecialistViewModel specialist)//
+        public IActionResult AddSpecialist(SpecialistViewModel specialist)//добавление специалиста администратором
         {
             if (ModelState.IsValid)
             {
-                specialistRepos.createSpecialist(specialist);
+                specialistRepos.createSpecialist(specialist);// создание мастера и добавление в БД
                 return RedirectToAction("Complete");
             }
             return View(specialist);
@@ -63,11 +63,11 @@ namespace Gibrid.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult AddCategory(CategorySpecialistViewModel category)//
+        public IActionResult AddCategory(CategorySpecialistViewModel category)//метод позволяющий содавать категории мастеров
         {
             if (ModelState.IsValid)
             {
-                categoryRepos.createCategory(category);
+                categoryRepos.createCategory(category);//создание категории и добавление в БД
                 return RedirectToAction("CompleteCategory");
             }
             return View(category);
@@ -77,13 +77,13 @@ namespace Gibrid.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult AddTime(TimeViewModel model, int id)//
+        public IActionResult AddTime(TimeViewModel model, int id)//метод добавления времени мастеру
         {
             if (timeRepos.getAllTimeDetails.Any(x=>x.TimeSpecialist==model.Time)) return RedirectToAction("CompleteNotTime");
 
            // if (ModelState.IsValid)
             {
-                timeRepos.createTime(model,id);
+                timeRepos.createTime(model,id);//создание времени и добавление в БД
                 return RedirectToAction("Complete2");
             }
             return View(model);

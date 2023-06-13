@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Identity;
 namespace Gibrid.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class HomeController : Controller//домашняя страница 
     {
         private readonly IAllWorks _allWorks;
         private readonly SignInManager<User> _signInManager;
@@ -25,7 +25,7 @@ namespace Gibrid.Controllers
             _signInManager = signInManager;
         }
         
-        public IActionResult Index()
+        public IActionResult Index()// в зависимости от роли будет открывается определенная страница
         {
             if (_signInManager.IsSignedIn(User) == User.IsInRole("master"))
             {

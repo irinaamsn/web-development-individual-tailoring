@@ -2,7 +2,6 @@
 {
     public interface IUser
     {
-        public IEnumerable<User> Users { get; } 
-       // public void createUser(User user);
+        public IEnumerable<User> Users { get; } //получение всех пользователей
     }
 }

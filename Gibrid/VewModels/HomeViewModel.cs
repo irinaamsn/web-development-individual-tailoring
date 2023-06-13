@@ -7,6 +7,6 @@ namespace Gibrid.VewModels
     public class HomeViewModel
     {
         
-        public List<Works> allWorks{ get; set; }
+        public List<Works> allWorks{ get; set; }//все работы из БД
     }
 }

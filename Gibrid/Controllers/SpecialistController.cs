@@ -25,7 +25,7 @@ namespace Gibrid.Controllers
         }
         [Route("Specialist/List")]
         [Route("Specialist/List/{category}")]
-        public ViewResult List(string category)// for main page
+        public ViewResult List(string category)// список специалистов 
         {
             int isCreate = 0;
             var user = User.Identity.Name;
@@ -36,7 +36,7 @@ namespace Gibrid.Controllers
             IEnumerable<Specialist> specialists = null;
             var list = new ListSpecialistsViewModel();
             string currcategory = "";
-            if (string.IsNullOrEmpty(category))
+            if (string.IsNullOrEmpty(category))//получение всех мастеров
             {
                 specialists = _allSpecialist.Specialists.OrderBy(i => i.Id);
                  list = new ListSpecialistsViewModel()
@@ -45,7 +45,7 @@ namespace Gibrid.Controllers
                     IsCreate = isCreate
                 };
             }
-            else
+            else//получение мастеров определеннной категории
             {
                 specialists = _allSpecialist.Specialists.Where(x => x.CategoryName == category);
                 list = new ListSpecialistsViewModel()
@@ -56,12 +56,12 @@ namespace Gibrid.Controllers
             }
             return View(list);
         }
-        public ViewResult ProfileDetail(int idSp)
+        public ViewResult ProfileDetail(int idSp)//страница отображаемая более подробную информацию о мастере
         {
-            var specialist = _allSpecialist.Specialists.SingleOrDefault(x => x.Id == idSp);
-            var works  = _workRepos.WorksDetails.Where(x=>x.SpecialistId==idSp);
-            var reviews = _reviewRepos.allReviewsDetails.Where(x=>x.SpecialistId== idSp);   
-            var model = new ProfileDetailViewModel
+            var specialist = _allSpecialist.Specialists.SingleOrDefault(x => x.Id == idSp);//сам мастер
+            var works  = _workRepos.WorksDetails.Where(x=>x.SpecialistId==idSp);//его работы
+            var reviews = _reviewRepos.allReviewsDetails.Where(x=>x.SpecialistId== idSp); //его отзывы  
+            var model = new ProfileDetailViewModel//модель для представления содержащиая все нужные данные
             {
                 Specialist=specialist,
                 allWorks=works,
@@ -69,10 +69,10 @@ namespace Gibrid.Controllers
             };
             return View(model);
         }
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int id)//редактирование ПД мастера
         {
             //User user = await _userManager.FindByIdAsync(id);
-            var specialist  = _allSpecialist.Specialists.SingleOrDefault(x=>x.Id== id); 
+            var specialist  = _allSpecialist.Specialists.SingleOrDefault(x=>x.Id== id); //получение мастера по айди
             if (specialist == null)
             {
                 return NotFound();
@@ -83,7 +83,7 @@ namespace Gibrid.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(EditSpecialistViewModel model)
+        public async Task<IActionResult> Edit(EditSpecialistViewModel model)//получение новых данных и сохрагнение изменений
         {
             if (ModelState.IsValid)
             {

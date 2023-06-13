@@ -16,8 +16,8 @@ namespace Gibrid.Models.Repository
         public void createSignUp(SignUp sign,string userId, int idTime)
         {
             sign.signTime = DateTime.Now;
-            _content.SignUp.Add(sign);//todo check
-            _content.SaveChanges();
+            _content.SignUp.Add(sign);//добавлние записи в соответствующую таблицу в БД
+            _content.SaveChanges();//сохранение изменений в БД
             var item = reseption.ReseptionItem;
           //  foreach (var item in items)
             {
@@ -36,16 +36,11 @@ namespace Gibrid.Models.Repository
             }
             var reseptionItem = _content.ReseptionItem.SingleOrDefault(x => x.ReseptionId == reseption.ReseptionId);
             _content.ReseptionItem.Remove(reseptionItem);
-            _content.SaveChanges();
-            //var signDet = getObjSignUpDetail(sign.Id);
-            //var timedetail = timeRepos.getAllTimeDetails.SingleOrDefault(x => x.SpecialistDetailsId == signDet.SpecialistId && x.Time == signDet.Time);
-            //timeRepos.DeleteTime(timedetail.Id);
-           
+            _content.SaveChanges();//сохранение изменений в БД
         }
-        public IEnumerable<SignUpDetail> AllSignUpDetails => _content.SignUpDetail;
-        public IEnumerable<SignUp> AllSignUp => _content.SignUp;
-        public SignUpDetail getObjSignUpDetail(int id) => _content.SignUpDetail.SingleOrDefault(x=>x.SignUpId==id);
+        public IEnumerable<SignUpDetail> AllSignUpDetails => _content.SignUpDetail;//получение всех записей из БД
+        public IEnumerable<SignUp> AllSignUp => _content.SignUp;//получение всех записей (данных введеных клиентом) из БД
+        public SignUpDetail getObjSignUpDetail(int id) => _content.SignUpDetail.SingleOrDefault(x=>x.SignUpId==id);//получение записи по ID из БД
         public SignUp getObjSignUp(int id) => _content.SignUp.SingleOrDefault(x => x.Id == id);
-        //public SignUpDetail mySignUp(string userId) => _content.SignUpDetail.SingleOrDefault(x=>x.UserId==userId);
     }
 }

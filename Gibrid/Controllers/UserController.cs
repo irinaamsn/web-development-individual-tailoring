@@ -28,7 +28,7 @@ namespace Gibrid.Controllers
         public IActionResult Create() => View();
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateUserViewModel model)
+        public async Task<IActionResult> Create(CreateUserViewModel model)//создание пользователя используя необходимые данные
         {
             if (ModelState.IsValid)
             {
@@ -49,7 +49,7 @@ namespace Gibrid.Controllers
             }
             return View(model);
         }
-        public async Task<IActionResult> ChangePassword(string id)
+        public async Task<IActionResult> ChangePassword(string id)//изменение пароля пользователя зная его ID
         {
             User user = await _userManager.FindByIdAsync(id);
             if (user == null)
@@ -60,7 +60,7 @@ namespace Gibrid.Controllers
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)// получение модели новых данных и сохранение изменений 
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +89,7 @@ namespace Gibrid.Controllers
             }
             return View(model);
         }
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(string id)//редактиование ПД пользователя
         {
                 User user = await _userManager.FindByIdAsync(id);
                 if (user == null)
@@ -101,7 +101,7 @@ namespace Gibrid.Controllers
         }
 
             [HttpPost]
-            public async Task<IActionResult> Edit(EditUserViewModel model)
+            public async Task<IActionResult> Edit(EditUserViewModel model)//получение модели с новыми данными
             {
                 if (ModelState.IsValid)
                 {
@@ -130,7 +130,7 @@ namespace Gibrid.Controllers
             }
 
             [HttpPost]
-            public async Task<ActionResult> Delete(string id)
+            public async Task<ActionResult> Delete(string id)//удаление пользователя
             {
                 User user = await _userManager.FindByIdAsync(id);
                 if (user != null)

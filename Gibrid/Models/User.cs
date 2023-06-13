@@ -7,15 +7,14 @@ namespace Gibrid.Models
 {
     public class User:IdentityUser
     {
-    [BindNever]
-        public override string? Id { get; set; }
-    [Required]
+    [BindNever]//атрибут указывает что свойство не должно участвовать в процессе привязки модели в контроллере
+        public override string? Id { get; set; }//уникальный идентификатор
+        [Required]
         public int Year { get; set; }
     [Required]
         public override string? Email { get; set; }
     [Required]
         public string? Password { get; set; }
-       // public string Role { get; set; }
 
     }
 }

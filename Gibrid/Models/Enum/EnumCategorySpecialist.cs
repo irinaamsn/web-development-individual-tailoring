@@ -2,7 +2,7 @@
 
 namespace Gibrid.Models.Enum
 {
-    public enum EnumCategorySpecialist
+    public enum EnumCategorySpecialist// перечисление, содержит категории мастеров
     {
 
         [Display(Name = "Ученик")]
